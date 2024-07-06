@@ -7,9 +7,10 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { MusicService } from './music.repository';
+
 import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
+import { MusicService } from './music.service';
 
 @Controller('music')
 export class MusicController {
@@ -21,18 +22,18 @@ export class MusicController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.musicService.findOne(id);
+  findOne(@Param('id') id: string) {
+    return this.musicService.findOne(Number(id));
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() data: UpdateMusicDto) {
-    return this.musicService.update(id, data);
+  update(@Param('id') id: string, @Body() data: UpdateMusicDto) {
+    return this.musicService.update(Number(id), data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.musicService.remove(id);
+  remove(@Param('id') id: string) {
+    return this.musicService.remove(Number(id));
   }
 
   @Post()

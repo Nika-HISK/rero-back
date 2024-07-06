@@ -3,22 +3,22 @@ import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
 
 @Injectable()
-export class MusicRepository {
-  constructor(private readonly musicRepository: MusicRepository) {}
+export class MusicService {
+  constructor(private readonly musicService: MusicService) {}
 
   create(data: CreateMusicDto) {
-    return this.musicRepository.create(data);
+    return this.musicService.create(data);
   }
   update(id: number, data: object) {
-    return this.musicRepository.update(id, UpdateMusicDto);
+    return this.musicService.update(id, UpdateMusicDto);
   }
   findAll() {
-    return this.musicRepository.findAll();
+    return this.musicService.findAll();
   }
   findOne(id: number) {
-    return this.musicRepository.findOne(id);
+    return this.musicService.findOne(id);
   }
   remove(id: number) {
-    return this.musicRepository.remove(id);
+    return this.musicService.remove(id);
   }
 }

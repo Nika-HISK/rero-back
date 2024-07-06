@@ -3,7 +3,7 @@ import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
 
 @Injectable()
-export class MusicService {
+export class MusicRepository {
   create(data: CreateMusicDto) {}
   update(id: number, data: UpdateMusicDto) {}
   findAll() {}
