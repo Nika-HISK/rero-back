@@ -1,12 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMusicDto } from './dtos/create-music.dto';
-import { UpdateMusicDto } from './dtos/update-music.dto';
+
 
 @Injectable()
 export class MusicRepository {
-  create(data: CreateMusicDto) {}
-  update(id: number, data: UpdateMusicDto) {}
-  findAll() {}
-  findOne(id: number) {}
-  remove(id: number) {}
+  findAll() {
+    return 'all musics';
+  }
+
+  findOne(id: number) {
+    return `music on ${id}`;
+  }
+
+  create(data: Object) {}
+
+  delete(id: number) {
+    return `deletes on id ${id}`;
+  }
+
+  update(id: number, data: Object) {
+    return `updates ${data} on id ${id}`;
+  }
 }

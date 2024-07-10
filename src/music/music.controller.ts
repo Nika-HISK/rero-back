@@ -14,9 +14,9 @@ import { MusicService } from './music.service';
 
 @Controller('music')
 export class MusicController {
-  constructor(private readonly musicService: MusicService) {}
+  constructor(private readonly musicService:MusicService) {}
 
-  @Get()
+  @Get()  
   findAll() {
     return this.musicService.findAll();
   }
