@@ -12,7 +12,7 @@ export class MusicRepository {
     private readonly musicRepository: Repository<Music>,
   ) {}
 
-  CreateMusic(data: CreateMusicDto) {
+  create(data: CreateMusicDto) {
     const newMusic = new Music();
 
     newMusic.name = data.name;
@@ -28,9 +28,7 @@ export class MusicRepository {
   findOne(id: number) {
     return this.musicRepository.findOneBy({ id });
   }
-
-  create(data: Object) {}
-
+  
   remove(id: number) {
     return this.musicRepository.delete(id);
   }
