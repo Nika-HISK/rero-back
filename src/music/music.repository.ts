@@ -1,23 +1,44 @@
 import { Injectable } from '@nestjs/common';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Music } from './entities/music.entity';
+import { Repository } from 'typeorm';
+import { CreateMusicDto } from './dtos/create-music.dto';
+import { UpdateMusicDto } from './dtos/update-music.dto';
 
 @Injectable()
 export class MusicRepository {
+  delete(id: number) {
+    throw new Error('Method not implemented.');
+  }
+  constructor(
+    @InjectRepository(Music)
+    private readonly musicRepository: Repository<Music>,
+  ) {}
+
+  createMusic(data: CreateMusicDto) {
+    const newMusic = new Music();
+
+    newMusic.name = data.name;
+    newMusic.url = data.url;
+
+    return this.musicRepository.save(newMusic);
+  }
+
   findAll() {
-    return 'all musics';
+    return this.musicRepository.find();
   }
 
   findOne(id: number) {
-    return `music on ${id}`;
+    return this.musicRepository.findOneBy({ id });
   }
 
   create(data: Object) {}
 
-  delete(id: number) {
-    return `deletes on id ${id}`;
+  remove(id: number) {
+    return this.musicRepository.delete(id);
   }
 
-  update(id: number, data: Object) {
+  update(id: number, data: UpdateMusicDto) {
     return `updates ${data} on id ${id}`;
   }
 }
