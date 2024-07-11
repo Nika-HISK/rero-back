@@ -7,15 +7,12 @@ import { UpdateMusicDto } from './dtos/update-music.dto';
 
 @Injectable()
 export class MusicRepository {
-  delete(id: number) {
-    throw new Error('Method not implemented.');
-  }
   constructor(
     @InjectRepository(Music)
     private readonly musicRepository: Repository<Music>,
   ) {}
 
-  createMusic(data: CreateMusicDto) {
+  CreateMusic(data: CreateMusicDto) {
     const newMusic = new Music();
 
     newMusic.name = data.name;

@@ -20,6 +20,6 @@ export class MusicService {
     return this.musicRepository.findOne(id);
   }
   remove(id: number) {
-    return this.musicRepository.delete(id);
+    return this.musicRepository.remove(id);
   }
 }
