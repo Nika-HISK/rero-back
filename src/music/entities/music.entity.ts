@@ -5,9 +5,9 @@ export class Music {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 70, nullable: true })
+  @Column({ type: 'varchar', length: 70, nullable: false })
   name: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text', nullable: false })
   url: string;
 }
