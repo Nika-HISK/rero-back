@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MusicModule } from './music/music.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ArtistController } from './artist/artist.controller';
+import { ArtistModule } from './artist/artist.module';
 
 @Module({
   imports: [
@@ -13,11 +15,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'nikushakima54321',
+      password: '',
       database: 'rero-db',
       autoLoadEntities: true,
       synchronize: true,
     }),
+    ArtistModule,
   ],
   controllers: [AppController],
   providers: [AppService],
