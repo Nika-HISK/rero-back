@@ -6,26 +6,31 @@ import { AlbumRepository } from './repositories/album.repository';
 @Injectable()
 export class AlbumService {
 
-    constructor(private readonly AlbumRepository: AlbumRepository) { }
+    constructor(private readonly albumRepository: AlbumRepository) { }
 
-    create(createAlbumDto: CreateAlbumDto) {
-        return this.AlbumRepository.create(createAlbumDto)
+
+    findAllAlbums(){
+        return this.albumRepository.findAll()
     }
 
-    findAll() {
-        return this.AlbumRepository.findAll()
+    create(createAlbumDto: CreateAlbumDto) {
+        return this.albumRepository.create(createAlbumDto)
+    }
+
+    findAll(query: any) {
+        return this.albumRepository.findAll(query)
     }
 
     findOne(id: number) {
-        return this.AlbumRepository.findOne(id)
+        return this.albumRepository.findOne(id)
     }
 
     update(id: number, updateAlbumDto: UpdateAlbumDto) {
-        return this.AlbumRepository.update(id, updateAlbumDto)
+        return this.albumRepository.update(id, updateAlbumDto)
     }
 
     delete(id: number) {
-        return this.AlbumRepository.delete(id)
+        return this.albumRepository.delete(id)
     }
 
 }

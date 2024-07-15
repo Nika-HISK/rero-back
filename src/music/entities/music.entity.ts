@@ -21,5 +21,4 @@ export class Music {
   @ManyToOne(() => Artist, (artist) => artist.musics)
   artists: Artist
 
-
 }

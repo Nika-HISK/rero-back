@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { FindManyOptions, Like, Repository } from "typeorm";
 import { Album } from "../entities/album.entity";
 import { CreateAlbumDto } from "../dtos/create-album.dto";
 import { UpdateAlbumDto } from "../dtos/update-album.dto";
@@ -15,8 +15,18 @@ export class AlbumRepository {
         private readonly albumRepo: Repository<Album>
     ) { }
 
-    findAll() {
-        return this.albumRepo.find()
+    findAll(search?: string) {
+        const query = {}
+
+        if (search) {
+            Object.assign(query, {
+                where: {
+                    title: Like(`%${search}%`)
+                }
+            })
+        }
+        
+        return this.albumRepo.find(query)
     }
 
     findOne(id: number) {

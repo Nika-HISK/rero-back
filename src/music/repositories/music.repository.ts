@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Music } from '../entities/music.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateMusicDto } from '../dtos/create-music.dto';
 import { UpdateMusicDto } from '../dtos/update-music.dto';
 
@@ -22,8 +22,17 @@ export class MusicRepository {
     return this.musicRepository.save(newMusic);
   }
 
-  findAll() {
-    return this.musicRepository.find();
+  findAll(search?: string) {
+    const query = {}
+
+    if (search) {
+      Object.assign(query, {
+        where: {
+          title: Like(`%${search}%`)
+        }
+      })
+    }
+    return this.musicRepository.find(query)
   }
 
   findOne(id: number) {
