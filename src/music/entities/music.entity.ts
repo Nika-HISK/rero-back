@@ -12,9 +12,6 @@ export class Music {
   @Column({ type: 'text', nullable: false })
   url: string;
 
-
-
-
   @ManyToOne(() => Album, (album) => album.musics)
-  album:Album
+  album: Album
 }

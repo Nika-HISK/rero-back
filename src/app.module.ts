@@ -4,8 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MusicModule } from './music/music.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AlbumController } from './album/album.controller';
-import { AlbumService } from './album/album.service';
 import { AlbumModule } from './album/album.module';
 
 @Module({

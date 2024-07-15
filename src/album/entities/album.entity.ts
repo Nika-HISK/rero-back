@@ -1,25 +1,21 @@
 import { Music } from "src/music/entities/music.entity";
-import { Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-
-
-
-
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 
 export class Album {
     @PrimaryGeneratedColumn()
-    id:number
+    id: number
 
-    @Column({type:'varchar', nullable:false})
-    title:string
+    @Column({ type: 'varchar', nullable: false })
+    title: string
 
 
-    @Column({nullable:false})
-    releaseDate:string
+    @Column({ nullable: false })
+    releaseDate: string
 
 
     @OneToMany(() => Music, (musics) => musics.album)
-    musics:Music[]
+    musics: Music[]
 
 }
