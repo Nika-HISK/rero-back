@@ -13,5 +13,7 @@ export class Music {
   url: string;
 
   @ManyToOne(() => Artist, (artist) => artist.musics)
-  artist:Artist
+  artist: Artist
+
+
 }

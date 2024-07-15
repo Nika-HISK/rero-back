@@ -1,28 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { ArtistRepository } from './artist.repository';
 import { CreateArtistDto } from './dtos/create-artist.dto';
 import { UpdateArtistDto } from './dtos/update-artist.dto';
+import { ArtistRepository } from './repositories/artist.repository';
 
 @Injectable()
 export class ArtistService {
-    constructor(private readonly artistRepository:ArtistRepository) {}
+    constructor(private readonly artistRepository: ArtistRepository) { }
+
+    create(data: CreateArtistDto) {
+        return this.artistRepository.create(data)
+    }
+
     findAll() {
         return this.artistRepository.findAll()
     }
 
-    findOne(id:number) {
+    findOne(id: number) {
         return this.artistRepository.findOne(id)
     }
 
-    create(data:CreateArtistDto) {
-        return this.artistRepository.create(data)
+    update(id: number, data: UpdateArtistDto) {
+        return this.artistRepository.update(id, data)
     }
 
-    delete(id:number) {
+    delete(id: number) {
         return this.artistRepository.delete(id)
     }
 
-    update( id:number,data:UpdateArtistDto) {
-        return this.artistRepository.update(id, data)
-    }
 }
