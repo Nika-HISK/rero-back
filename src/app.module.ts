@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { MusicModule } from './music/music.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AlbumModule } from './album/album.module';
+import { ArtistModule } from './artist/artist.module';
+
 
 @Module({
   imports: [
@@ -19,9 +21,10 @@ import { AlbumModule } from './album/album.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    AlbumModule
+    AlbumModule,
+    ArtistModule
   ],
-  controllers: [AppController ],
+  controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
