@@ -3,6 +3,7 @@ import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
 import { MusicRepository } from './repositories/music.repository';
 
+
 @Injectable()
 export class MusicService {
   constructor(private readonly musicRepository: MusicRepository) { }
@@ -14,6 +15,7 @@ export class MusicService {
   findAll() {
     return this.musicRepository.findAll();
   }
+
   findOne(id: number) {
     return this.musicRepository.findOne(id);
   }

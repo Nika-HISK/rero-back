@@ -1,3 +1,4 @@
+import { Album } from 'src/album/entities/album.entity';
 import { Artist } from 'src/artist/entities/artist.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -12,8 +13,13 @@ export class Music {
   @Column({ type: 'text', nullable: false })
   url: string;
 
+  @ManyToOne(() => Album, (album) => album.musics)
+  album: Album
+  artist: any;
+
+
   @ManyToOne(() => Artist, (artist) => artist.musics)
-  artist: Artist
+  artists: Artist
 
 
 }

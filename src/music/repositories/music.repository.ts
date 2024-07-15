@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateMusicDto } from '../dtos/create-music.dto';
 import { UpdateMusicDto } from '../dtos/update-music.dto';
 
+
 @Injectable()
 export class MusicRepository {
   constructor(
@@ -29,8 +30,8 @@ export class MusicRepository {
     return this.musicRepository.findOneBy({ id });
   }
 
-  update(id: number, data: UpdateMusicDto) {
-    return `updates ${data} on id ${id}`;
+  update(id: number, updateMusicDto: UpdateMusicDto) {
+    return `updates ${updateMusicDto} on id ${id}`;
   }
 
   remove(id: number) {
