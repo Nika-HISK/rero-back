@@ -7,8 +7,8 @@ import { MusicRepository } from './repositories/music.repository';
 export class MusicService {
   constructor(private readonly musicRepository: MusicRepository) { }
 
-  create(data: CreateMusicDto) {
-    return this.musicRepository.create(data);
+  create(createMusicDto: CreateMusicDto) {
+    return this.musicRepository.create(createMusicDto);
   }
 
   findAll() {
@@ -18,8 +18,8 @@ export class MusicService {
     return this.musicRepository.findOne(id);
   }
 
-  update(id: number, data: UpdateMusicDto) {
-    return this.musicRepository.update(id, data);
+  update(id: number, updateMusicDto: UpdateMusicDto) {
+    return this.musicRepository.update(id, updateMusicDto);
   }
 
   remove(id: number) {

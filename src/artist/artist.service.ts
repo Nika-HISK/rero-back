@@ -7,8 +7,8 @@ import { ArtistRepository } from './repositories/artist.repository';
 export class ArtistService {
     constructor(private readonly artistRepository: ArtistRepository) { }
 
-    create(data: CreateArtistDto) {
-        return this.artistRepository.create(data)
+    create(createArtistDto: CreateArtistDto) {
+        return this.artistRepository.create(createArtistDto)
     }
 
     findAll() {
@@ -19,8 +19,8 @@ export class ArtistService {
         return this.artistRepository.findOne(id)
     }
 
-    update(id: number, data: UpdateArtistDto) {
-        return this.artistRepository.update(id, data)
+    update(id: number, updateArtistDto: UpdateArtistDto) {
+        return this.artistRepository.update(id, updateArtistDto)
     }
 
     delete(id: number) {
