@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
 import { MusicRepository } from './repositories/music.repository';
+import { SearchQueryDto } from 'src/search/dtos/search-query.dto';
 
 
 @Injectable()
@@ -12,8 +13,8 @@ export class MusicService {
     return this.musicRepository.create(createMusicDto);
   }
 
-  findAll() {
-    return this.musicRepository.findAll();
+  findAll(searchQueryDto:SearchQueryDto) {
+    return this.musicRepository.findAll(searchQueryDto.query);
   }
 
   findOne(id: number) {

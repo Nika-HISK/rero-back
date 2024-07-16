@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dtos/create-album.dto';
 import { UpdateAlbumDto } from './dtos/update-album.dto';
+import { SearchQueryDto } from 'src/search/dtos/search-query.dto';
 
 @Controller('album')
 export class AlbumController {
@@ -14,8 +15,8 @@ export class AlbumController {
     }
 
     @Get()
-    findAll(@Query() query: any) {
-        return this.AlbumService.findAll(query)
+    findAll(@Query() searchQueryDto: SearchQueryDto) {
+        return this.AlbumService.findAll(searchQueryDto)
     }
 
     @Get(':id')
