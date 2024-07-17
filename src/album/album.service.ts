@@ -9,17 +9,12 @@ export class AlbumService {
 
     constructor(private readonly albumRepository: AlbumRepository) { }
 
-
-    findAllAlbums(){
-        return this.albumRepository.findAll()
-    }
-
     create(createAlbumDto: CreateAlbumDto) {
         return this.albumRepository.create(createAlbumDto)
     }
 
-    findAll(searchQueryDto: SearchQueryDto) {
-        return this.albumRepository.findAll(searchQueryDto.query)
+    findAll() {
+        return this.albumRepository.findAll()
     }
 
     findOne(id: number) {

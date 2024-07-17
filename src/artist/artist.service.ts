@@ -6,14 +6,14 @@ import { SearchQueryDto } from 'src/search/dtos/search-query.dto';
 
 @Injectable()
 export class ArtistService {
-  constructor(private readonly artistRepository: ArtistRepository) {}
+  constructor(private readonly artistRepository: ArtistRepository) { }
 
   create(createArtistDto: CreateArtistDto) {
     return this.artistRepository.create(createArtistDto);
   }
 
-  findAll(searchQueryDto: SearchQueryDto) {
-    return this.artistRepository.findAll(searchQueryDto.query);
+  findAll() {
+    return this.artistRepository.findAll();
   }
 
   findOne(id: number) {

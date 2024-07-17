@@ -15,8 +15,8 @@ export class AlbumController {
     }
 
     @Get()
-    findAll(@Query() searchQueryDto: SearchQueryDto) {
-        return this.AlbumService.findAll(searchQueryDto)
+    findAll() {
+        return this.AlbumService.findAll()
     }
 
     @Get(':id')

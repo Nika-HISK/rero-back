@@ -16,7 +16,7 @@ import { SearchQueryDto } from 'src/search/dtos/search-query.dto';
 
 @Controller('music')
 export class MusicController {
-  constructor(private readonly musicService: MusicService) {}
+  constructor(private readonly musicService: MusicService) { }
 
   @Post()
   create(@Body() createMusicDto: CreateMusicDto) {
@@ -24,8 +24,8 @@ export class MusicController {
   }
 
   @Get()
-  findAll(@Query() searchQueryDto: SearchQueryDto) {
-    return this.musicService.findAll(searchQueryDto);
+  findAll() {
+    return this.musicService.findAll();
   }
 
   @Get(':id')
