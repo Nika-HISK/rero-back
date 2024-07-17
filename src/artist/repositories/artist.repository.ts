@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { Artist } from "../entities/artist.entity";
 import { CreateArtistDto } from "../dtos/create-artist.dto";
 import { UpdateArtistDto } from "../dtos/update-artist.dto";
@@ -14,10 +14,18 @@ export class ArtistRepository {
         @InjectRepository(Artist)
         private readonly artistRepo: Repository<Artist>
     ) { }
-    findAll() {
-        return this.artistRepo.find()
-    }
+    findAll(search?: string) {
+        const query = {}
 
+        if (search) {
+            Object.assign(query, {
+                where: {
+                    title: Like(`%${search}%`)
+                }
+            })
+        }
+        return this.artistRepo.find(query)
+    }
     findOne(id: number) {
         return this.artistRepo.findOneBy({ id })
     }

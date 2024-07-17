@@ -6,16 +6,17 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 
 import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
 import { MusicService } from './music.service';
+import { SearchQueryDto } from 'src/search/dtos/search-query.dto';
 
 @Controller('music')
 export class MusicController {
   constructor(private readonly musicService: MusicService) { }
-
 
   @Post()
   create(@Body() createMusicDto: CreateMusicDto) {
@@ -41,5 +42,4 @@ export class MusicController {
   remove(@Param('id') id: string) {
     return this.musicService.remove(Number(id));
   }
-
 }
