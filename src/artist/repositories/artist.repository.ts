@@ -35,11 +35,11 @@ export class ArtistRepository {
         return this.artistRepo.save(newArtist)
     }
 
-    delete(id: number) {
-        return this.artistRepo.delete(id)
-    }
-
     update(id: number, data: UpdateArtistDto) {
         return this.artistRepo.update(id, data)
+    }
+
+    delete(id: number) {
+        return this.artistRepo.delete(id)
     }
 }
