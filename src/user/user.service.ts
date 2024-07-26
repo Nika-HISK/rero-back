@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { userRepository } from './repositories/user.repository';
+import { UserRepository } from './repositories/user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepo: userRepository) {}
+  constructor(private readonly userRepo: UserRepository) {}
 
   create(createUserDto: CreateUserDto) {
     if (createUserDto.password !== createUserDto.confirmPassword) {

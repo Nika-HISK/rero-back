@@ -7,7 +7,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class userRepository {
+export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
