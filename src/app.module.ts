@@ -8,6 +8,8 @@ import { AlbumModule } from './album/album.module';
 import { ArtistModule } from './artist/artist.module';
 import { SearchModule } from './search/search.module';
 import { UserModule } from './user/user.module';
+import { Playlist } from './playlist/entities/playlist.entity';
+import { Music } from './music/entities/music.entity';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { UserModule } from './user/user.module';
       database: 'rero-db',
       autoLoadEntities: true,
       synchronize: true,
+      entities: [Playlist, Music],
     }),
     AlbumModule,
     ArtistModule,

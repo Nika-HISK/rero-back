@@ -1,6 +1,7 @@
+import { Playlist } from 'src/playlist/entities/playlist.entity';
 import { Album } from 'src/album/entities/album.entity';
 import { Artist } from 'src/artist/entities/artist.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity()
 export class Music {
@@ -14,11 +15,12 @@ export class Music {
   url: string;
 
   @ManyToOne(() => Album, (album) => album.musics)
-  album: Album
-  artist: any;
-
+  album: Album;
 
   @ManyToOne(() => Artist, (artist) => artist.musics)
-  artists: Artist
+  artist: Artist;
 
+  @ManyToMany(() => Playlist, (playlist) => playlist.music)
+  @JoinTable()
+  playlists: Playlist[];
 }
