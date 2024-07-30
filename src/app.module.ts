@@ -8,6 +8,7 @@ import { AlbumModule } from './album/album.module';
 import { ArtistModule } from './artist/artist.module';
 import { SearchModule } from './search/search.module';
 import { UserModule } from './user/user.module';
+import { ListenersModule } from './listeners/listeners.module';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { UserModule } from './user/user.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'nikushakima54321',
+      password: '',
       database: 'rero-db',
       autoLoadEntities: true,
       synchronize: true,
@@ -26,6 +27,7 @@ import { UserModule } from './user/user.module';
     ArtistModule,
     SearchModule,
     UserModule,
+    ListenersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
