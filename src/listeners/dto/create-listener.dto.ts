@@ -1,10 +1,6 @@
 import { IsNumber } from "class-validator";
 import { PrimaryGeneratedColumn } from "typeorm";
 
-export class CreateListenerDto {
-    @IsNumber()
-    listned:number
+export class CreateListenerDto {}
 
-    @IsNumber()
-    today:number
-}
+
