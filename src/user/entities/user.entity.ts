@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Listener } from 'src/listeners/entities/listener.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -16,4 +17,10 @@ export class User {
 
   @Column()
   IsAdmin:boolean
+
+
+
+  @OneToMany(() => Listener, (listener) => listener.user)
+  listeners:Listener[]
+  
 }
