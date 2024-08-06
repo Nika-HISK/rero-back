@@ -22,7 +22,7 @@ export class Music {
   @ManyToOne(() => Artist, (artist) => artist.musics)
   artists: Artist
 
-  // @ManyToMany(() => Listener, (listener) => listener.music)
-  // listeners:Listener[]
+  @ManyToMany(() => Listener, (listener) => listener.music)
+  listeners:Listener[]
 
 }

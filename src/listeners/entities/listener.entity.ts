@@ -21,7 +21,7 @@ export class Listener {
   @ManyToOne(() => User, (user) => user.listeners)
   user:User
 
-//   @ManyToMany(() => Music, (music) => music.listeners)
-//   @JoinTable()
-//   music: Music;
+  @ManyToMany(() => Music, (music) => music.listeners)
+  @JoinTable()
+  music: Music;
 }

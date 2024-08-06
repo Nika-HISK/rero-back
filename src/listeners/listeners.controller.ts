@@ -18,7 +18,7 @@ export class ListenersController {
       case 'month':
         return this.listenersService.months();
       default:
-        return { message: 'Invalid timestamp. Use "today", "week", or "month".' };
+        return { message: 'use today week or month' };
     }
   }
 }

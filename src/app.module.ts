@@ -9,6 +9,7 @@ import { ArtistModule } from './artist/artist.module';
 import { SearchModule } from './search/search.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
+import { ListenersModule } from './listeners/listeners.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ConfigModule } from '@nestjs/config';
     ArtistModule,
     SearchModule,
     UserModule,
+    ListenersModule
   ],
   controllers: [AppController],
   providers: [AppService],
