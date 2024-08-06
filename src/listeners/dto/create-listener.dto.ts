@@ -1,6 +1,13 @@
-import { IsNumber } from "class-validator";
-import { PrimaryGeneratedColumn } from "typeorm";
+import { IsNumber, IsOptional, IsString } from "class-validator";
+import { PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
-export class CreateListenerDto {}
+export class CreateListenerDto {
+    // @IsString()
+    // name:string
+
+    @IsOptional()
+    @IsString()
+    timestamp:string
+}
 
 

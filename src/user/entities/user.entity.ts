@@ -19,8 +19,8 @@ export class User {
   IsAdmin:boolean
 
 
-
   @OneToMany(() => Listener, (listener) => listener.user)
   listeners:Listener[]
+
   
 }
