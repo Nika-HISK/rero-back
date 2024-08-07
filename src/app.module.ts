@@ -10,6 +10,7 @@ import { SearchModule } from './search/search.module';
 import { UserModule } from './user/user.module';
 import { Playlist } from './playlist/entities/playlist.entity';
 import { Music } from './music/entities/music.entity';
+import { PlaylistModule } from './playlist/playlist.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { Music } from './music/entities/music.entity';
     ArtistModule,
     SearchModule,
     UserModule,
+    PlaylistModule
   ],
   controllers: [AppController],
   providers: [AppService],

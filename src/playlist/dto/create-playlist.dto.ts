@@ -8,7 +8,7 @@ export class CreatePlaylistDto {
 
   @IsString()
   @IsOptional()
-  description: string;
+  description?: string;
 
   @ValidateNested({ each: true })
   @Type(() => CreateMusicDto)

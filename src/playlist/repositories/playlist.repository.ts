@@ -4,17 +4,14 @@ import { Playlist } from '../entities/playlist.entity';
 import { Repository } from 'typeorm';
 import { CreatePlaylistDto } from '../dto/create-playlist.dto';
 import { UpdatePlaylistDto } from '../dto/update-playlist.dto';
-import { Music } from 'src/music/entities/music.entity';
-import { CreateMusicDto } from 'src/music/dtos/create-music.dto';
+import { MusicRepository } from 'src/music/repositories/music.repository';
 
 @Injectable()
 export class PlaylistRepository {
   constructor(
     @InjectRepository(Playlist)
     private readonly playlistRepo: Repository<Playlist>,
-
-    @InjectRepository(Music)
-    private readonly musicRepo: Repository<Music>,
+    private readonly musicRepo: MusicRepository,
   ) {}
 
   async create(data: CreatePlaylistDto): Promise<Playlist> {
@@ -23,61 +20,49 @@ export class PlaylistRepository {
     newPlaylist.description = data.description;
 
     if (data.musics && data.musics.length > 0) {
-      const musicEntities = await Promise.all(
-        data.musics.map(async (musicDto: CreateMusicDto) => {
-          const newMusic = this.musicRepo.create(musicDto);
-          return this.musicRepo.save(newMusic);
-        }),
-      );
-      newPlaylist.music = musicEntities;
+      const musicEntities = [];
+      for (const musicDto of data.musics) {
+        const newMusic = await this.musicRepo.create(musicDto);
+        musicEntities.push(newMusic);
+      }
+      newPlaylist.musics = musicEntities;
     } else {
-      newPlaylist.music = [];
+      newPlaylist.musics = [];
     }
 
     return this.playlistRepo.save(newPlaylist);
   }
 
   findAll(): Promise<Playlist[]> {
-    return this.playlistRepo.find({ relations: ['music'] });
+    return this.playlistRepo.find({ relations: ['musics'] });
   }
 
   findOne(id: number): Promise<Playlist> {
     return this.playlistRepo.findOne({
       where: { id },
-      relations: ['music'],
+      relations: ['musics'],
     });
   }
 
-  async update(
-    id: number,
-    updatePlaylistDto: UpdatePlaylistDto,
-  ): Promise<Playlist> {
-    const playlist = await this.playlistRepo.findOne({
-      where: { id },
-      relations: ['music'],
-    });
-    if (!playlist) {
-      throw new Error('Playlist not found');
-    }
-
-    playlist.name = updatePlaylistDto.name || playlist.name;
-    playlist.description =
-      updatePlaylistDto.description || playlist.description;
+  async update(id: number, updatePlaylistDto: UpdatePlaylistDto): Promise<Playlist> {
+    const updateData: Partial<Playlist> = {};
+    if (updatePlaylistDto.name) updateData.name = updatePlaylistDto.name;
+    if (updatePlaylistDto.description) updateData.description = updatePlaylistDto.description;
 
     if (updatePlaylistDto.musics) {
-      const updatedMusicEntities = await Promise.all(
-        updatePlaylistDto.musics.map(async (musicDto: CreateMusicDto) => {
-          const newMusic = this.musicRepo.create(musicDto);
-          return this.musicRepo.save(newMusic);
-        }),
-      );
-      playlist.music = updatedMusicEntities;
+      const musicEntities = [];
+      for (const musicDto of updatePlaylistDto.musics) {
+        const newMusic = await this.musicRepo.create(musicDto);
+        musicEntities.push(newMusic);
+      }
+      updateData.musics = musicEntities;
     }
 
-    return this.playlistRepo.save(playlist);
+    await this.playlistRepo.update(id, updateData);
+    return this.playlistRepo.findOne({ where: { id }, relations: ['musics'] });
   }
 
-  delete(id: number): Promise<void> {
-    return this.playlistRepo.delete(id).then(() => undefined);
+  async delete(id: number): Promise<void> {
+    await this.playlistRepo.delete(id);
   }
 }

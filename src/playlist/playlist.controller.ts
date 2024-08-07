@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
@@ -27,19 +27,19 @@ export class PlaylistController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.playlistService.findOne(+id);
+    return this.playlistService.findOne(Number(id));
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updatePlaylistDto: UpdatePlaylistDto,
   ) {
-    return this.playlistService.update(+id, updatePlaylistDto);
+    return this.playlistService.update(Number(id), updatePlaylistDto);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.playlistService.delete(+id);
+    return this.playlistService.delete(Number(id));
   }
 }

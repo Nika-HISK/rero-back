@@ -20,7 +20,7 @@ export class Music {
   @ManyToOne(() => Artist, (artist) => artist.musics)
   artist: Artist;
 
-  @ManyToMany(() => Playlist, (playlist) => playlist.music)
+  @ManyToMany(() => Playlist, (playlist) => playlist.musics)
   @JoinTable()
   playlists: Playlist[];
 }

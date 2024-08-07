@@ -6,12 +6,12 @@ export class Playlist {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Column()
   name: string;
 
-  @Column({ type: 'text', nullable: true })
-  description: string;
+  @Column({nullable: true })
+  description?: string;
 
-  @ManyToMany(() => Music, (music) => music.playlists)
-  music: Music[];
+  @ManyToMany(() => Music, (music) => music.playlists,{cascade:true})
+  musics: Music[];
 }
