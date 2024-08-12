@@ -9,9 +9,9 @@ export class Playlist {
   @Column()
   name: string;
 
-  @Column({nullable: true })
+  @Column({ nullable: true })
   description?: string;
 
-  @ManyToMany(() => Music, (music) => music.playlists,{cascade:true})
+  @ManyToMany(() => Music, (music) => music.playlists, { cascade: true })
   musics: Music[];
 }
