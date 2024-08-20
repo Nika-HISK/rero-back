@@ -1,29 +1,82 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Playlist } from './entities/playlist.entity';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
-import { PlaylistRepository } from './repositories/playlist.repository';
+import { MusicService } from 'src/music/music.service';
+import { Music } from 'src/music/entities/music.entity';
 
 @Injectable()
 export class PlaylistService {
-  constructor(private readonly playlistRepo: PlaylistRepository) {}
+  constructor(
+    @InjectRepository(Playlist)
+    private readonly playlistRepository: Repository<Playlist>,
+    private readonly musicService: MusicService,
+  ) {}
 
-  create(createPlaylistDto: CreatePlaylistDto) {
-    return this.playlistRepo.create(createPlaylistDto);
+  async create(createPlaylistDto: CreatePlaylistDto): Promise<Playlist> {
+    const playlist = new Playlist();
+    playlist.name = createPlaylistDto.name;
+    playlist.description = createPlaylistDto.description;
+
+    if (createPlaylistDto.musics && createPlaylistDto.musics.length > 0) {
+      const musicEntities: Music[] = [];
+      for (const musicDto of createPlaylistDto.musics) {
+        const music = await this.musicService.create(musicDto);
+        musicEntities.push(music);
+      }
+      playlist.musics = musicEntities;
+    } else {
+      playlist.musics = [];
+    }
+
+    return await this.playlistRepository.save(playlist);
   }
 
-  findAll() {
-    return this.playlistRepo.findAll();
+  async update(
+    id: number,
+    updatePlaylistDto: UpdatePlaylistDto,
+  ): Promise<Playlist> {
+    const playlist = await this.playlistRepository.findOne({
+      where: { id },
+      relations: ['musics'],
+    });
+    if (!playlist) {
+      throw new Error('Playlist not found');
+    }
+
+    if (updatePlaylistDto.name) {
+      playlist.name = updatePlaylistDto.name;
+    }
+    if (updatePlaylistDto.description) {
+      playlist.description = updatePlaylistDto.description;
+    }
+
+    if (updatePlaylistDto.musics && updatePlaylistDto.musics.length > 0) {
+      const musicEntities: Music[] = [];
+      for (const musicDto of updatePlaylistDto.musics) {
+        const music = await this.musicService.create(musicDto);
+        musicEntities.push(music);
+      }
+      playlist.musics = musicEntities;
+    }
+
+    return await this.playlistRepository.save(playlist);
   }
 
-  findOne(id: number) {
-    return this.playlistRepo.findOne(id);
+  async findAll(): Promise<Playlist[]> {
+    return this.playlistRepository.find({ relations: ['musics'] });
   }
 
-  update(id: number, updateArtistDto: UpdatePlaylistDto) {
-    return this.playlistRepo.update(id, updateArtistDto);
+  async findOne(id: number): Promise<Playlist> {
+    return this.playlistRepository.findOne({
+      where: { id },
+      relations: ['musics'],
+    });
   }
 
-  delete(id: number) {
-    return this.playlistRepo.delete(id);
+  async delete(id: number): Promise<void> {
+    await this.playlistRepository.delete(id);
   }
 }
