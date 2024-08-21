@@ -9,11 +9,7 @@ export class MusicService {
   constructor(private readonly musicRepository: MusicRepository) {}
 
   async create(createMusicDto: CreateMusicDto): Promise<Music> {
-    const music = new Music();
-    music.name = createMusicDto.name;
-    music.url = createMusicDto.url;
-
-    return this.musicRepository.save(music);
+    return this.musicRepository.create(createMusicDto);
   }
 
   async findAll(search?: string): Promise<Music[]> {
@@ -25,19 +21,7 @@ export class MusicService {
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto): Promise<Music> {
-    const music = await this.musicRepository.findOne(id);
-    if (!music) {
-      throw new Error('Music not found');
-    }
-
-    if (updateMusicDto.name) {
-      music.name = updateMusicDto.name;
-    }
-    if (updateMusicDto.url) {
-      music.url = updateMusicDto.url;
-    }
-
-    return this.musicRepository.save(music);
+    return this.musicRepository.update(id, updateMusicDto);
   }
 
   async remove(id: number): Promise<void> {

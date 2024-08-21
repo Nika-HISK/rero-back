@@ -6,9 +6,10 @@ import { Playlist } from './entities/playlist.entity';
 import { PlaylistRepository } from './repositories/playlist.repository';
 import { MusicService } from 'src/music/music.service';
 import { MusicRepository } from 'src/music/repositories/music.repository';
+import { Music } from 'src/music/entities/music.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Playlist])],
+  imports: [TypeOrmModule.forFeature([Playlist,Music])],
   controllers: [PlaylistController],
   providers: [
     PlaylistService,
