@@ -39,9 +39,22 @@ export class PlaylistRepository {
   async update(
     id: number,
     updatePlaylistDto: UpdatePlaylistDto,
+    musics: Music[] = [],
   ): Promise<Playlist> {
-    await this.playlistRepository.update(id, updatePlaylistDto);
-    return this.findOne(id);
+    const existingPlaylist = await this.findOne(id);
+    if (!existingPlaylist) {
+      throw new Error('Playlist not found');
+    }
+
+    const updatedPlaylist = {
+      ...existingPlaylist,
+      name: updatePlaylistDto.name ?? existingPlaylist.name,
+      description:
+        updatePlaylistDto.description ?? existingPlaylist.description,
+      musics: musics.length > 0 ? musics : existingPlaylist.musics,
+    };
+
+    return this.playlistRepository.save(updatedPlaylist);
   }
 
   async delete(id: number): Promise<void> {

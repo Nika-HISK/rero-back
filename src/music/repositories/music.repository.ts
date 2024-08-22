@@ -19,9 +19,22 @@ export class MusicRepository {
 
   async findAll(search?: string): Promise<Music[]> {
     if (search) {
-      return this.musicRepository.find({ where: { name: Like(`%${search}%`) } });
+      return this.musicRepository.find({
+        where: { name: Like(`%${search}%`) },
+      });
     }
     return this.musicRepository.find();
+  }
+  async findOneByProperties(
+    createMusicDto: CreateMusicDto,
+  ): Promise<Music | null> {
+    return this.musicRepository.findOne({
+      where: {
+        name: createMusicDto.name,
+        url: createMusicDto.url,
+        artist: { id: createMusicDto.artistId },
+      },
+    });
   }
 
   async findOne(id: number): Promise<Music> {

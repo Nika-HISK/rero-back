@@ -20,47 +20,47 @@ export class PlaylistService {
 
     if (createPlaylistDto.musics && createPlaylistDto.musics.length > 0) {
       for (const musicDto of createPlaylistDto.musics) {
-        const music = await this.musicService.create(musicDto);
-        musicEntities.push(music);
+        const music = await this.musicService.findByProperties(musicDto);
+        if (music) {
+          musicEntities.push(music);
+        } else {
+          throw new Error(`Music not found for name: ${musicDto.name}`);
+        }
       }
     }
+
     return this.playlistRepository.createPlaylist(
       createPlaylistDto,
       musicEntities,
     );
   }
+
   async update(
     id: number,
     updatePlaylistDto: UpdatePlaylistDto,
   ): Promise<Playlist> {
-    const existingPlaylist = await this.playlistRepository.findOne(id);
-    if (!existingPlaylist) {
-      throw new Error('Playlist not found');
-    }
-    const updatedPlaylist = {
-      ...existingPlaylist,
-      name: updatePlaylistDto.name ?? existingPlaylist.name,
-      description:
-        updatePlaylistDto.description ?? existingPlaylist.description,
-    };
+    let musicEntities: Music[] = [];
+
     if (updatePlaylistDto.musics && updatePlaylistDto.musics.length > 0) {
-      const musicEntities: Music[] = [];
       for (const musicDto of updatePlaylistDto.musics) {
-        const music = await this.musicService.create(musicDto);
-        musicEntities.push(music);
+        const music = await this.musicService.findByProperties(musicDto);
+        if (music) {
+          musicEntities.push(music);
+        } else {
+          throw new Error(`Music not found for name: ${musicDto.name}`);
+        }
       }
-      updatedPlaylist.musics = musicEntities;
     }
 
-    return this.playlistRepository.update(id, updatePlaylistDto);
-  }
-
-  async findAll(): Promise<Playlist[]> {
-    return this.playlistRepository.findAll();
+    return this.playlistRepository.update(id, updatePlaylistDto, musicEntities);
   }
 
   async findOne(id: number): Promise<Playlist> {
     return this.playlistRepository.findOne(id);
+  }
+
+  async findAll(): Promise<Playlist[]> {
+    return this.playlistRepository.findAll();
   }
 
   async delete(id: number): Promise<void> {

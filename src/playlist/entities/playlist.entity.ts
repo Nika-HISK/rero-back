@@ -5,10 +5,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToMany,
-  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  JoinTable,
 } from 'typeorm';
 
 @Entity()
@@ -25,8 +25,9 @@ export class Playlist {
   @ManyToMany(() => Music, (music) => music.playlists, { cascade: true })
   musics: Music[];
 
-  @ManyToOne(() => User, (user) => user.playlists)
-  user: User;
+  @ManyToMany(() => User, (user) => user.playlists)
+  @JoinTable()
+  users: User[];
 
   @CreateDateColumn()
   createdAt: Date;
