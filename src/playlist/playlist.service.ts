@@ -1,12 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Music } from 'src/music/entities/music.entity';
+import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { Playlist } from './entities/playlist.entity';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
-import { UpdatePlaylistDto } from './dto/update-playlist.dto';
-import { MusicService } from 'src/music/music.service';
-import { Music } from 'src/music/entities/music.entity';
 import { PlaylistRepository } from './repositories/playlist.repository';
+import { MusicService } from 'src/music/music.service';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PlaylistService {
@@ -20,21 +18,25 @@ export class PlaylistService {
 
     if (createPlaylistDto.musics && createPlaylistDto.musics.length > 0) {
       for (const musicDto of createPlaylistDto.musics) {
-        const music = await this.musicService.findByProperties(musicDto);
-        if (music) {
-          musicEntities.push(music);
+        let music: Music;
+
+        if (musicDto.id) {
+          music = await this.musicService.findOne(musicDto.id);
+          if (!music) {
+            throw new Error(`Music not found for ID: ${musicDto.id}`);
+          }
         } else {
-          throw new Error(`Music not found for name: ${musicDto.name}`);
+          music = await this.musicService.create(musicDto);
         }
+
+        musicEntities.push(music);
       }
     }
-
     return this.playlistRepository.createPlaylist(
       createPlaylistDto,
       musicEntities,
     );
   }
-
   async update(
     id: number,
     updatePlaylistDto: UpdatePlaylistDto,
@@ -43,12 +45,18 @@ export class PlaylistService {
 
     if (updatePlaylistDto.musics && updatePlaylistDto.musics.length > 0) {
       for (const musicDto of updatePlaylistDto.musics) {
-        const music = await this.musicService.findByProperties(musicDto);
-        if (music) {
-          musicEntities.push(music);
+        let music: Music;
+
+        if (musicDto.id) {
+          music = await this.musicService.findOne(musicDto.id);
+          if (!music) {
+            throw new Error(`Music not found for ID: ${musicDto.id}`);
+          }
         } else {
-          throw new Error(`Music not found for name: ${musicDto.name}`);
+          music = await this.musicService.create(musicDto);
         }
+
+        musicEntities.push(music);
       }
     }
 
