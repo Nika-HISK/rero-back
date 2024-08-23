@@ -25,10 +25,7 @@ export class PlaylistService {
           if (!music) {
             throw new Error(`Music not found for ID: ${musicDto.id}`);
           }
-        } else {
-          music = await this.musicService.create(musicDto);
         }
-
         musicEntities.push(music);
       }
     }

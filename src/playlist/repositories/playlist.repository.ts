@@ -26,11 +26,11 @@ export class PlaylistRepository {
   }
 
   async findAll(): Promise<Playlist[]> {
-    return this.playlistRepository.find({ relations: ['musics'] });
+    return await this.playlistRepository.find({ relations: ['musics'] });
   }
 
   async findOne(id: number): Promise<Playlist> {
-    return this.playlistRepository.findOne({
+    return await this.playlistRepository.findOne({
       where: { id },
       relations: ['musics'],
     });
@@ -54,7 +54,7 @@ export class PlaylistRepository {
       musics: musics.length > 0 ? musics : existingPlaylist.musics,
     };
 
-    return this.playlistRepository.save(updatedPlaylist);
+    return await this.playlistRepository.save(updatedPlaylist);
   }
 
   async delete(id: number): Promise<void> {
