@@ -1,31 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { MusicRepository } from './repositories/music.repository';
+import { Music } from './entities/music.entity';
 import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
-import { MusicRepository } from './repositories/music.repository';
-import { SearchQueryDto } from 'src/search/dtos/search-query.dto';
-
 
 @Injectable()
 export class MusicService {
-  constructor(private readonly musicRepository: MusicRepository) { }
+  constructor(private readonly musicRepository: MusicRepository) {}
 
-  create(createMusicDto: CreateMusicDto) {
+  async create(createMusicDto: CreateMusicDto): Promise<Music> {
     return this.musicRepository.create(createMusicDto);
   }
 
-  findAll() {
-    return this.musicRepository.findAll();
+  async findAll(search?: string): Promise<Music[]> {
+    return this.musicRepository.findAll(search);
   }
 
-  findOne(id: number) {
+  async findOne(id: number): Promise<Music> {
     return this.musicRepository.findOne(id);
   }
 
-  update(id: number, updateMusicDto: UpdateMusicDto) {
+  async update(id: number, updateMusicDto: UpdateMusicDto): Promise<Music> {
     return this.musicRepository.update(id, updateMusicDto);
   }
+  async findByProperties(
+    createMusicDto: CreateMusicDto,
+  ): Promise<Music | null> {
+    return this.musicRepository.findOneByProperties(createMusicDto);
+  }
 
-  remove(id: number) {
-    return this.musicRepository.remove(id);
+  async remove(id: number): Promise<void> {
+    await this.musicRepository.remove(id);
   }
 }
