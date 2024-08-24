@@ -15,6 +15,12 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ default: 'User' })
+  role: string;
+
+  @Column({ nullable: true })
+  username?: string;
+
   @ManyToMany(() => Playlist, (playlist) => playlist.users)
   playlists: Playlist[];
 }

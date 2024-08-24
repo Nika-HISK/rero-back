@@ -32,6 +32,10 @@ export class UserRepository {
     return this.userRepo.findOneBy({ id });
   }
 
+  async findOneByEmail(email: string) {
+    return this.userRepo.findOneBy({ email });
+  }
+
   update(id: number, data: UpdateUserDto) {
     return this.userRepo.update(id, data);
   }
