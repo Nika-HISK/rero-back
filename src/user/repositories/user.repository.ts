@@ -17,7 +17,6 @@ export class UserRepository {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
     const newUser = new User();
-    newUser.name = createUserDto.name;
     newUser.email = createUserDto.email;
     newUser.password = hashedPassword;
 
@@ -30,6 +29,10 @@ export class UserRepository {
 
   findOne(id: number) {
     return this.userRepo.findOneBy({ id });
+  }
+
+  async findOneByEmail(email: string) {
+    return this.userRepo.findOneBy({ email });
   }
 
   update(id: number, data: UpdateUserDto) {

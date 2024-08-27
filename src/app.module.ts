@@ -11,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Playlist } from './playlist/entities/playlist.entity';
 import { Music } from './music/entities/music.entity';
 import { PlaylistModule } from './playlist/playlist.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { PlaylistModule } from './playlist/playlist.module';
     ArtistModule,
     SearchModule,
     UserModule,
-    PlaylistModule
+    PlaylistModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
