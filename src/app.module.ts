@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MusicModule } from './music/music.module';
@@ -10,6 +9,10 @@ import { SearchModule } from './search/search.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { ListenersModule } from './listeners/listeners.module';
+import { Playlist } from './playlist/entities/playlist.entity';
+import { Music } from './music/entities/music.entity';
+import { PlaylistModule } from './playlist/playlist.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,12 +27,15 @@ import { ListenersModule } from './listeners/listeners.module';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
+      entities: [Playlist, Music],
     }),
     AlbumModule,
     ArtistModule,
     SearchModule,
     UserModule,
-    ListenersModule
+    ListenersModule,
+    PlaylistModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -23,6 +23,10 @@ export class UserService {
     return this.userRepo.findOne(id);
   }
 
+  async findOneByEmail(email: string) {
+    return this.userRepo.findOneByEmail(email);
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.userRepo.update(id, updateUserDto);
   }

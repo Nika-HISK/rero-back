@@ -1,16 +1,15 @@
-import { IsEnum } from 'class-validator';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Playlist } from 'src/playlist/entities/playlist.entity';
+import { Role } from './role.enum';
 import { Listener } from 'src/listeners/entities/listener.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { IsEnum } from 'class-validator';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({nullable:false})
-  name: string;
-
-  @Column({nullable:false})
+  @Column()
   email: string;
 
   @Column({nullable:false})

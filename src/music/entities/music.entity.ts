@@ -1,7 +1,14 @@
+import { Playlist } from 'src/playlist/entities/playlist.entity';
 import { Album } from 'src/album/entities/album.entity';
 import { Artist } from 'src/artist/entities/artist.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Listener } from 'src/listeners/entities/listener.entity';
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Music {
@@ -14,13 +21,14 @@ export class Music {
   @Column({ type: 'text', nullable: false })
   url: string;
 
-  @ManyToOne(() => Album, (album) => album.musics)
-  album: Album
-  artist: any;
+  @Column()
+  albumId:number;
 
+  @ManyToOne(() => Album, (album) => album.musics)
+  album: Album;
 
   @ManyToOne(() => Artist, (artist) => artist.musics)
-  artists: Artist
+  artist: Artist;
 
   @OneToMany(() => Listener, (listener) => listener.music)
   listeners:Listener[]
