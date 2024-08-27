@@ -17,7 +17,6 @@ export class UserRepository {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
     const newUser = new User();
-    newUser.name = createUserDto.name;
     newUser.email = createUserDto.email;
     newUser.password = hashedPassword;
 
