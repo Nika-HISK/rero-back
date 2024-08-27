@@ -4,24 +4,20 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  ManyToMany,
   ManyToOne,
-  JoinTable,
 } from 'typeorm';
 
 @Entity()
 export class Listener {
-  @PrimaryGeneratedColumn() 
+  @PrimaryGeneratedColumn()
   id: number;
 
   @CreateDateColumn()
   createdAt: Date;
 
-
   @ManyToOne(() => User, (user) => user.listeners)
-  user:User
+  user: User;
 
-  @ManyToMany(() => Music, (music) => music.listeners)
-  @JoinTable()
+  @ManyToOne(() => Music, (music) => music.listeners)
   music: Music;
 }

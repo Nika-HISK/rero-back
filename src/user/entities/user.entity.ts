@@ -1,3 +1,4 @@
+import { IsEnum } from 'class-validator';
 import { Listener } from 'src/listeners/entities/listener.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -15,9 +16,8 @@ export class User {
   @Column({nullable:false})
   password: string;
 
-  @Column()
-  IsAdmin:boolean
-
+  @IsEnum(['admin', 'user'])
+  role:string
 
   @OneToMany(() => Listener, (listener) => listener.user)
   listeners:Listener[]
