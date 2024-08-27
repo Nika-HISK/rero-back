@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository } from 'typeorm';
+import { And, Between, Repository } from 'typeorm';
 import { Listener } from '../entities/listener.entity';
 
 @Injectable()
@@ -18,14 +18,13 @@ export class ListenersRepository {
     endDate.setDate(endDate.getDate() + 1);
 
     const mostViewedRequest = await this.listenerRepo
-      .createQueryBuilder('request')
-      .select('request.id', 'requestId')
-      .addSelect('COUNT(request.id)', 'viewCount')
-      .where('request.createdAt BETWEEN :startDate AND :endDate', {
+      .createQueryBuilder('music')
+      .select(['music.id', 'musicId'] && ['COUNT(music.id)', 'viewCount'])
+      .where('music.createdAt BETWEEN :startDate AND :endDate', {
         startDate,
         endDate,
       })
-      .groupBy('request.id')
+      .groupBy('music.id')
       .orderBy('viewCount', 'DESC')
       .getRawOne();
 
@@ -40,18 +39,17 @@ export class ListenersRepository {
     endDate.setDate(endDate.getDate() + 7);
 
     const mostViewedRequest = await this.listenerRepo
-      .createQueryBuilder('request')
-      .select('request.id', 'requestId')
-      .addSelect('COUNT(request.id)', 'viewCount')
-      .where('request.createdAt BETWEEN :startDate AND :endDate', {
-        startDate,
-        endDate,
-      })
-      .groupBy('request.id')
-      .orderBy('viewCount', 'DESC')
-      .getRawOne();
+    .createQueryBuilder('music')
+    .select(['music.id', 'musicId'] && ['COUNT(music.id)', 'viewCount'])
+    .where('music.createdAt BETWEEN :startDate AND :endDate', {
+      startDate,
+      endDate,
+    })
+    .groupBy('music.id')
+    .orderBy('viewCount', 'DESC')
+    .getRawOne();
 
-    return mostViewedRequest;
+  return mostViewedRequest;
   }
 
   async months() {
@@ -62,17 +60,16 @@ export class ListenersRepository {
     endDate.setDate(endDate.getDate() + 30);
 
     const mostViewedRequest = await this.listenerRepo
-      .createQueryBuilder('request')
-      .select('request.id', 'requestId')
-      .addSelect('COUNT(request.id)', 'viewCount')
-      .where('request.createdAt BETWEEN :startDate AND :endDate', {
-        startDate,
-        endDate,
-      })
-      .groupBy('request.id')
-      .orderBy('viewCount', 'DESC')
-      .getRawOne();
+    .createQueryBuilder('music')
+    .select(['music.id', 'musicId'] && ['COUNT(music.id)', 'viewCount'])
+    .where('music.createdAt BETWEEN :startDate AND :endDate', {
+      startDate,
+      endDate,
+    })
+    .groupBy('music.id')
+    .orderBy('viewCount', 'DESC')
+    .getRawOne();
 
-    return mostViewedRequest;
+  return mostViewedRequest;
   }
 }

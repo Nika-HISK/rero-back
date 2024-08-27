@@ -5,12 +5,19 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   ManyToOne,
+  Column,
 } from 'typeorm';
 
 @Entity()
 export class Listener {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  userId:number
+
+  @Column()
+  musicId:number
 
   @CreateDateColumn()
   createdAt: Date;
