@@ -6,12 +6,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  OneToMany,
   ManyToMany,
-  JoinTable,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
 } from 'typeorm';
+import { Listener } from 'src/listeners/entities/listener.entity';
 
 @Entity()
 export class Music {
@@ -33,16 +31,11 @@ export class Music {
   @ManyToOne(() => Artist, (artist) => artist.musics)
   artist: Artist;
 
+  @OneToMany(() => Listener, (listener) => listener.music)
+  listeners:Listener[]
+
   @ManyToMany(() => Playlist, (playlist) => playlist.musics)
-  @JoinTable()
-  playlists: Playlist[];
+  playlists:Playlist[]
 
-  @CreateDateColumn()
-  createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
 }

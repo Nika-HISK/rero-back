@@ -1,6 +1,8 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Playlist } from 'src/playlist/entities/playlist.entity';
 import { Role } from './role.enum';
+import { Listener } from 'src/listeners/entities/listener.entity';
+import { IsEnum } from 'class-validator';
 
 @Entity()
 export class User {
@@ -10,19 +12,17 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
+  @Column({nullable:false})
   password: string;
 
-  @Column({
-    type: 'enum',
-    enum: Role,
-    default: Role.USER,
-  })
-  role: Role;
+  @IsEnum(['admin', 'user'])
+  role:string
 
-  @Column({ nullable: true })
-  username?: string;
+  @OneToMany(() => Listener, (listener) => listener.user)
+  listeners:Listener[]
 
   @ManyToMany(() => Playlist, (playlist) => playlist.users)
-  playlists: Playlist[];
+  playlists:Playlist[]
+
+  
 }

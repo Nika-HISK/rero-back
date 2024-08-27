@@ -32,12 +32,14 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "config": "^3.3.12",
     "dotenv": "^16.4.5",
-    "mysql2": "^3.10.2",
+    "mysql2": "^3.11.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "timestamp": "^0.0.1",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {

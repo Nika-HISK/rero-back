@@ -8,6 +8,7 @@ import { ArtistModule } from './artist/artist.module';
 import { SearchModule } from './search/search.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
+import { ListenersModule } from './listeners/listeners.module';
 import { Playlist } from './playlist/entities/playlist.entity';
 import { Music } from './music/entities/music.entity';
 import { PlaylistModule } from './playlist/playlist.module';
@@ -32,6 +33,7 @@ import { AuthModule } from './auth/auth.module';
     ArtistModule,
     SearchModule,
     UserModule,
+    ListenersModule,
     PlaylistModule,
     AuthModule,
   ],
