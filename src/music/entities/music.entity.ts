@@ -7,6 +7,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { Listener } from 'src/listeners/entities/listener.entity';
 
@@ -32,5 +33,9 @@ export class Music {
 
   @OneToMany(() => Listener, (listener) => listener.music)
   listeners:Listener[]
+
+  @ManyToMany(() => Playlist, (playlist) => playlist.musics)
+  playlists:Playlist[]
+
 
 }

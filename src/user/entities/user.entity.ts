@@ -21,5 +21,8 @@ export class User {
   @OneToMany(() => Listener, (listener) => listener.user)
   listeners:Listener[]
 
+  @ManyToMany(() => Playlist, (playlist) => playlist.users)
+  playlists:Playlist[]
+
   
 }
