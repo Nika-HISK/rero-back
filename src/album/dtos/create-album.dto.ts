@@ -13,5 +13,5 @@ export class CreateAlbumDto {
 
     @ValidateNested({ each: true })
     @Type(() => CreateMusicDto)
-    students: CreateMusicDto[];
+    musics: CreateMusicDto[];
 }
