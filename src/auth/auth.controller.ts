@@ -18,7 +18,7 @@ export class AuthController {
     return this.authService.login(loginDto.email, loginDto.password);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt')) 
   @Get('protected')
   getProtectedRoute() {
     return { message: 'This is a protected route!' };
