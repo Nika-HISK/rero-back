@@ -9,6 +9,11 @@ async function bootstrap() {
     whitelist: true,
     transform: true
   }))
+  app.enableCors({
+    origin: 'reroapp.ge',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   await app.listen(3000);
 }
 bootstrap();
