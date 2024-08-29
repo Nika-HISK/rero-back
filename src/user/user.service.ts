@@ -8,10 +8,6 @@ export class UserService {
   constructor(private readonly userRepo: UserRepository) {}
 
   create(createUserDto: CreateUserDto) {
-    if (createUserDto.password !== createUserDto.confirmPassword) {
-      throw new BadRequestException('password does not match');
-    }
-
     return this.userRepo.create(createUserDto);
   }
 

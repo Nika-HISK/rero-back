@@ -3,6 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { Jwtconstantcs } from './gurad/secret';
+import { Role } from './gurad/enum/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -15,21 +17,16 @@ export class AuthService {
     return this.userService.create(createUserDto);
   }
 
-  async login(email: string, password: string) {
-
-    const user = await this.userService.findOneByEmail(email);
-    console.log('User:', user); 
-    console.log('Password:', password)
-    console.log('Stored Password:', user?.password);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Invalid credentials');
+  async login(createUserDto: CreateUserDto) {
+    const {email, password} =createUserDto
+    const user = await this.userService.findOneByEmail(email)
+    const checkPassword = user && await bcrypt.compare(password,user.password)
+    if(checkPassword) {
+      const payload = {id: user.id, email:user.email,role:Role.USER}
+      return {
+        accessToken: await this.jwtService.signAsync(payload,Jwtconstantcs)
+      }
     }
-    const payload = {
-      sub: user.id,
-      email: user.email,
-    };
-
-
-    return  this.jwtService.sign(payload)
+    return 'error'
   }
 }
