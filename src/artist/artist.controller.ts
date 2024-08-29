@@ -10,8 +10,8 @@ import {
 import { ArtistService } from './artist.service';
 import { CreateArtistDto } from './dtos/create-artist.dto';
 import { UpdateArtistDto } from './dtos/update-artist.dto';
-import { Role } from 'src/auth/gurad/enum/role.enum';
-import { Roles } from 'src/auth/gurad/jwt-roles.guard';
+import { Role } from 'src/auth/guard/enum/role.enum';
+import { Roles } from 'src/auth/guard/jwt-roles.guard';
 
 @Controller('artist')
 export class ArtistController {

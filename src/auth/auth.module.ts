@@ -6,10 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { UserModule } from 'src/user/user.module';
-import {  } from './gurad/jwt.strategy';
+import {  } from './guard/jwt.strategy';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './gurad/jwt-auth.guard';
-import {Jwtconstantcs} from './gurad/secret'
+import { AuthGuard } from './guard/jwt-auth.guard';
+import {Jwtconstantcs} from './guard/secret'
 @Module({
   imports: [
     UserModule,

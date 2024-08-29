@@ -2,7 +2,7 @@ import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { LoginDto } from './dto/login-dto';
-import { Public } from './gurad/jwt.strategy';
+import { Public } from './guard/jwt.strategy';
 
 @Controller('auth')
 export class AuthController {
