@@ -1,3 +1,3 @@
 export const Jwtconstantcs = {
-    secret: 'rero-app'
+    secret: process.env.GUARD_SECRET
 }
