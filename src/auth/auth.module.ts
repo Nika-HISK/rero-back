@@ -8,13 +8,13 @@ import { UserService } from 'src/user/user.service';
 import { UserModule } from 'src/user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guard/jwt-auth.guard';
-import {Jwtconstantcs} from './guard/secret'
+import { jwtConfig } from 'src/config/config';
 @Module({
   imports: [
     UserModule,
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
-      secret: Jwtconstantcs.secret,
+      secret: jwtConfig.secret,
       signOptions: { expiresIn: '24h' },
     }),
   ],
