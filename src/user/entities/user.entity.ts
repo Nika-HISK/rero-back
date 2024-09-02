@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Playlist } from 'src/playlist/entities/playlist.entity';
-import { Role } from './role.enum';
+import { Role } from '../../auth/guard/enum/role.enum';
 import { Listener } from 'src/listeners/entities/listener.entity';
 import { IsEnum } from 'class-validator';
 
