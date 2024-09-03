@@ -2,7 +2,6 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
@@ -10,7 +9,6 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Jwtconstantcs } from './guard/secret';
 import { Role } from './guard/enum/role.enum';
-import { error } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +18,13 @@ export class AuthService {
   ) {}
 
   async register(createUserDto: CreateUserDto) {
+    const { email } = createUserDto;
+
+    const existingUser = await this.userService.findOneByEmail(email);
+    if (existingUser) {
+      throw new HttpException('Email already in use', HttpStatus.BAD_REQUEST);
+    }
+
     return this.userService.create(createUserDto);
   }
 
@@ -31,7 +36,6 @@ export class AuthService {
       throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
     }
     const payload = { id: user.id, email: user.email, role: Role.USER };
-    console.log(Jwtconstantcs , 'jwtconst')
     return {
       accessToken: await this.jwtService.signAsync(payload, Jwtconstantcs),
     };
