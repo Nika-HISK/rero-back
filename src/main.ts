@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors({
     origin: 'reroapp.ge',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
+    credentials: false,
   });
   await app.listen(3000);
 }
