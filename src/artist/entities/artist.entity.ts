@@ -14,12 +14,15 @@ export class Artist {
     @Column({ type: 'varchar', length: 30, nullable: false })
     lastName: string
 
+    @Column({ nullable: false })
+    artistPhoto: string
+
     @Column({ type: 'text', nullable: false })
     biography: string
 
     @OneToMany(() => Music, (music) => music.artist)
     musics: Music[]
 
-    @OneToMany(() => Album, (album) => album.artist) 
-    albums:Album[]
+    @OneToMany(() => Album, (album) => album.artist)
+    albums: Album[]
 }

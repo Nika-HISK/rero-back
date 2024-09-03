@@ -5,10 +5,13 @@ import { CreateMusicDto } from "src/music/dtos/create-music.dto";
 
 export class CreateArtistDto {
     @IsString()
-    artistName: string
+    artistName: string;
 
     @IsString()
-    biography: string
+    biography: string;
+
+    @IsString()
+    artistPhoto: string;
 
     @ValidateNested({ each: true })
     @Type(() => CreateMusicDto)
