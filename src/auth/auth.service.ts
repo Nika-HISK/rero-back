@@ -16,6 +16,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
+  
 
   async register(createUserDto: CreateUserDto) {
     const { email } = createUserDto;
