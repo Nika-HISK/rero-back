@@ -35,7 +35,7 @@ export class AuthService {
     if (!isPasswordCorrect) {
       throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
     }
-    const payload = { i: user.id, email: user.email, role: user.role };
+    const payload = { i: user.id, email: user.email, role: user.role};
     return {
       accessToken: await this.jwtService.signAsync(payload, Jwtconstantcs),
     };

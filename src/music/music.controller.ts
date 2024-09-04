@@ -23,7 +23,7 @@ export class MusicController {
   constructor(private readonly musicService: MusicService) { }
 
   
-  @Roles(Role.ADMIN)
+  @Roles(Role.USER)
   @Post()
   create(@Body() createMusicDto: CreateMusicDto) {
     return this.musicService.create(createMusicDto);
