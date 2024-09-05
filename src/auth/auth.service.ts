@@ -32,7 +32,7 @@ export class AuthService {
     const user = await this.userService.findOneByEmail(email);
     const isPasswordCorrect = user && (await bcrypt.compare(password, user.password));
     if (!isPasswordCorrect) {
-      throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
+      throw new HttpException('The email or password you entered is incorrect', HttpStatus.BAD_REQUEST);
     }
     const payload = { i: user.id, email: user.email, role: user.role};
     return {
