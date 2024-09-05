@@ -17,7 +17,7 @@ import { Roles } from 'src/auth/guard/jwt-roles.guard';
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) { }
 
-  @Roles(Role.USER)
+  @Roles(Role.ADMIN)
   @Post()
   create(@Body() createArtistDto: CreateArtistDto) {
     return this.artistService.create(createArtistDto);

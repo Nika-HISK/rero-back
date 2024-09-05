@@ -10,10 +10,6 @@ import { Listener } from 'src/listeners/entities/listener.entity';
 import { IsEnum } from 'class-validator';
 import { Role } from 'src/auth/guard/enum/role.enum';
 
-enum UserRole {
-  Admin = 'admin',
-  User = 'user',
-}
 
 @Entity()
 export class User {
@@ -28,11 +24,10 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: UserRole,
-    default: UserRole.User,
+    enum: Role,
+    default: Role.USER,
   })
-  @IsEnum({default: Role.USER})
-  role: UserRole;
+  role: Role;
 
   @OneToMany(() => Listener, (listener) => listener.user)
   listeners: Listener[];
