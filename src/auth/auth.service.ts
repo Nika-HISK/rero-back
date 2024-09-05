@@ -8,7 +8,6 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Jwtconstantcs } from './guard/secret';
-import { Role } from './guard/enum/role.enum';
 
 @Injectable()
 export class AuthService {
