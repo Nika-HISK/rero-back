@@ -23,8 +23,10 @@ export class ArtistController {
     return this.artistService.create(createArtistDto);
   }
 
+
+
   @Roles(Role.USER, Role.ADMIN)
-  @Get()
+  @Get('')
   findAll() {
     return this.artistService.findAll();
   }

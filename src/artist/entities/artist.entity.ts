@@ -9,10 +9,9 @@ export class Artist {
     id: number
 
     @Column({ type: 'varchar', length: 30, nullable: false })
-    firstName: string
+    artistName: string
 
-    @Column({ type: 'varchar', length: 30, nullable: false })
-    lastName: string
+
 
     @Column({ nullable: false })
     artistPhoto: string

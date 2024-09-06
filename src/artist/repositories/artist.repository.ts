@@ -7,24 +7,22 @@ import { UpdateArtistDto } from "../dtos/update-artist.dto";
 
 
 @Injectable()
-
-
 export class ArtistRepository {
     constructor(
         @InjectRepository(Artist)
         private readonly artistRepo: Repository<Artist>
     ) { }
-    findAll(search?: string) {
-        const query = {}
+    async findAll(search?: string) {
+        const sql = this.artistRepo.createQueryBuilder('artist')
+        .leftJoinAndSelect('artist.albums', 'album')
+        .leftJoinAndSelect('artist.musics', 'music');
 
         if (search) {
-            Object.assign(query, {
-                where: {
-                    title: Like(`%${search}%`)
-                }
-            })
+            sql.where ('artist.artistName LIKE :search', {search})
+
         }
-        return this.artistRepo.find(query)
+        const raghaca = await sql.getMany()
+        return raghaca
     }
     findOne(id: number) {
         return this.artistRepo.findOneBy({ id })
@@ -42,4 +40,5 @@ export class ArtistRepository {
     delete(id: number) {
         return this.artistRepo.delete(id)
     }
+   
 }
