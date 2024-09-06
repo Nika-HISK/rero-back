@@ -8,7 +8,7 @@ import { Role } from 'src/auth/guard/enum/role.enum';
 export class ListenersController {
   constructor(private readonly listenersService: ListenersService) {}
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Get()
   getStatistics(@Query() query: CreateListenerDto) {
     const { timestamp } = query;

@@ -23,13 +23,13 @@ export class PlaylistController {
     return this.playlistService.create(createPlaylistDto);
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Get()
   findAll() {
     return this.playlistService.findAll();
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.playlistService.findOne(Number(id));

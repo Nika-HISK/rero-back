@@ -19,19 +19,19 @@ export class MusicController {
   constructor(private readonly musicService: MusicService) { }
 
   
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Post()
   create(@Body() createMusicDto: CreateMusicDto) {
     return this.musicService.create(createMusicDto);
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Get()
   findAll() {
     return this.musicService.findAll();
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.musicService.findOne(Number(id));

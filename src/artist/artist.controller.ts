@@ -29,7 +29,7 @@ export class ArtistController {
     return this.artistService.findAll();
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.artistService.findOne(Number(id));

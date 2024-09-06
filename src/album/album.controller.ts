@@ -17,13 +17,13 @@ export class AlbumController {
         return this.AlbumService.create(createAlbumDto)
     }
 
-    @Roles(Role.USER)
+    @Roles(Role.USER, Role.ADMIN)
     @Get()
     findAll() {
         return this.AlbumService.findAll()
     }
 
-    @Roles(Role.USER)
+    @Roles(Role.USER, Role.ADMIN)
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.AlbumService.findOne(Number(id))

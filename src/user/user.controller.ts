@@ -17,7 +17,7 @@ import { Roles } from 'src/auth/guard/jwt-roles.guard';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -35,13 +35,13 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.userService.delete(+id);
