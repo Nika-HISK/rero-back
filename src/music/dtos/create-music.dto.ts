@@ -8,8 +8,5 @@ export class CreateMusicDto {
   url: string;
 
   @IsNumber()
-  id: number;
-
-  @IsNumber()
   artistId: number;
 }

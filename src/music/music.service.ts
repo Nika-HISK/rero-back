@@ -23,9 +23,8 @@ export class MusicService {
   async update(id: number, updateMusicDto: UpdateMusicDto): Promise<Music> {
     return this.musicRepository.update(id, updateMusicDto);
   }
-  async findByProperties(
-    createMusicDto: CreateMusicDto,
-  ): Promise<Music | null> {
+
+  async findOneByProperties(createMusicDto: CreateMusicDto): Promise<Music | null> {
     return this.musicRepository.findOneByProperties(createMusicDto);
   }
 

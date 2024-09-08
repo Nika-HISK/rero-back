@@ -13,19 +13,19 @@ export class PlaylistService {
     private readonly musicService: MusicService,
   ) {}
 
+
   async create(createPlaylistDto: CreatePlaylistDto): Promise<Playlist> {
     const musicEntities: Music[] = [];
 
     if (createPlaylistDto.musics && createPlaylistDto.musics.length > 0) {
       for (const musicDto of createPlaylistDto.musics) {
-        let music: Music;
+        let music = await this.musicService.findOneByProperties(musicDto);
 
-        if (musicDto.id) {
-          music = await this.musicService.findOne(musicDto.id);
-          if (!music) {
-            throw new Error(`Music not found for ID: ${musicDto.id}`);
-          }
+        if (!music) {
+          // Handle case where music doesn't exist
+          music = await this.musicService.create(musicDto);
         }
+
         musicEntities.push(music);
       }
     }
@@ -34,22 +34,18 @@ export class PlaylistService {
       musicEntities,
     );
   }
+
   async update(
     id: number,
     updatePlaylistDto: UpdatePlaylistDto,
   ): Promise<Playlist> {
-    let musicEntities: Music[] = [];
+    const musicEntities: Music[] = [];
 
     if (updatePlaylistDto.musics && updatePlaylistDto.musics.length > 0) {
       for (const musicDto of updatePlaylistDto.musics) {
-        let music: Music;
+        let music = await this.musicService.findOneByProperties(musicDto);
 
-        if (musicDto.id) {
-          music = await this.musicService.findOne(musicDto.id);
-          if (!music) {
-            throw new Error(`Music not found for ID: ${musicDto.id}`);
-          }
-        } else {
+        if (!music) {
           music = await this.musicService.create(musicDto);
         }
 

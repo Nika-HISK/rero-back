@@ -22,8 +22,8 @@ export class Music {
   @Column({ type: 'text', nullable: false })
   url: string;
 
-  @Column()
-  albumId:number;
+  @Column({ nullable: true })
+  albumId: number;
 
   @ManyToOne(() => Album, (album) => album.musics)
   album: Album;
@@ -32,10 +32,9 @@ export class Music {
   artist: Artist;
 
   @OneToMany(() => Listener, (listener) => listener.music)
-  listeners:Listener[]
+  listeners: Listener[];
 
   @ManyToMany(() => Playlist, (playlist) => playlist.musics)
-  playlists:Playlist[]
-
-
+  cascade: ['remove'];
+  playlists: Playlist[];
 }
