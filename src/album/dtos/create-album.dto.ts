@@ -6,7 +6,7 @@ import { CreateMusicDto } from "src/music/dtos/create-music.dto";
 export class CreateAlbumDto {
 
     @IsString()
-    title: string
+    albumName: string
 
     @IsString()
     releaseDate: string

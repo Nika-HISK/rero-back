@@ -9,7 +9,7 @@ export class Album {
     id: number
 
     @Column({ type: 'varchar', nullable: false })
-    title: string
+    albumName: string
 
 
     @Column({ nullable: false })

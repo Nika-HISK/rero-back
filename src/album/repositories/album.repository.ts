@@ -15,19 +15,17 @@ export class AlbumRepository {
         private readonly albumRepo: Repository<Album>
     ) { }
 
-    findAll(search?: string) {
-        const query = {}
+    async findAll(search?: string) {
+        const sql = this.albumRepo.createQueryBuilder('album')
+        .leftJoinAndSelect('album.musics', 'music')
 
         if (search) {
-            Object.assign(query, {
-                where: {
-                    title: Like(`%${search}%`)
-                }
-            })
+            sql.where ('album.albumName LIKE :search', {search})
+
         }
-        
-        return this.albumRepo.find(query)
-    }
+        const raghaca = await sql.getMany()
+        return raghaca
+}
 
     findOne(id: number) {
         return this.albumRepo.findOneBy({ id })
