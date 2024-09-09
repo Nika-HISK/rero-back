@@ -24,26 +24,8 @@ export class ArtistRepository {
         }
     
         const artists = await sql.getMany();
-    
-        const result = artists.map(artist => {
-            artist.albums = artist.albums.map(album => {
-                return {
-                    ...album,
-                    albumHits: album.musics.map(music => ({
-                        id: music.id,
-                        duration: music.duration || 'N/A',
-                        cover: music.cover || '',           
-                        artistName: artist.artistName,      
-                        name: album.name,         
-                        music: music.name                   
-                    })),
-                    musics: undefined  
-                };
-            });
-            return artist;
-        });
-    
-        return result;
+        return artists
+
     }
     findOne(id: number) {
         return this.artistRepo.findOneBy({ id })

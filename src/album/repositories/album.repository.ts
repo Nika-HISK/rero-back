@@ -17,30 +17,15 @@ export class AlbumRepository {
 
     async findAll(search?: string) {
         const sql = this.albumRepo.createQueryBuilder('album')
-            .leftJoinAndSelect('album.musics', 'albumHits') 
-    
+            .leftJoinAndSelect('album.musics', 'albumHits')
+
         if (search) {
             sql.where('album.name LIKE :search', { search: `%${search}%` });
         }
     
         const albums = await sql.getMany();
-    
-        const result = albums.map(album => {
-            return {
-                ...album,
-                albumHits: album.musics.map(music => ({
-                    id: music.id,
-                    duration: music.duration || 'N/A', 
-                    cover: music.cover || '',          
-                    artistName: album.artist?.artistName || 'Unknown',  
-                    name: album.name,        
-                    music: music.name                  
-                })),
-                musics: undefined
-            };
-        });
-    
-        return result;
+
+        return albums;
     }
     
     
