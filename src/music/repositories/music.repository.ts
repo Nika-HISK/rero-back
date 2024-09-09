@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { Music } from '../entities/music.entity';
 import { CreateMusicDto } from '../dtos/create-music.dto';
 import { UpdateMusicDto } from '../dtos/update-music.dto';
@@ -18,35 +18,53 @@ export class MusicRepository {
   }
 
   async findAll(search?: string): Promise<Music[]> {
-    if (search) {
-      return this.musicRepository.find({
-        where: { name: Like(`%${search}%`) },
-      });
-    }
-    return this.musicRepository.find();
+    const options = search ? 
+      { where: { name: Like(`%${search}%`) } } :
+      {};
+    return await this.musicRepository.find(options);
   }
-  async findOneByProperties(
-    createMusicDto: CreateMusicDto,
-  ): Promise<Music | null> {
-    return this.musicRepository.findOne({
+
+  async findOneByProperties(createMusicDto: CreateMusicDto): Promise<Music | null> {
+    const { name, artistId } = createMusicDto;
+    return await this.musicRepository.findOne({
       where: {
-        name: createMusicDto.name,
-        url: createMusicDto.url,
-        artist: { id: createMusicDto.artistId },
+        name,
+        artist: { id: artistId },
       },
+      relations: ['artist'],
     });
   }
 
   async findOne(id: number): Promise<Music> {
-    return this.musicRepository.findOneBy({ id });
+    const music = await this.musicRepository.findOne({
+      where: { id },
+      relations: ['artist', 'album'],
+    });
+
+    if (!music) {
+      throw new NotFoundException(`Music with ID ${id} not found`);
+    }
+
+    return music;
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto): Promise<Music> {
-    await this.musicRepository.update(id, updateMusicDto);
+    const result = await this.musicRepository.update(id, updateMusicDto);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Music with ID ${id} not found`);
+    }
+
     return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
+    const music = await this.findOne(id);
+
+    if (music.album) {
+      throw new BadRequestException('Cannot delete music record as it is associated with an album.');
+    }
+
     await this.musicRepository.delete(id);
   }
 }

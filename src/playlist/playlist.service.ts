@@ -1,10 +1,10 @@
-import { Music } from 'src/music/entities/music.entity';
-import { UpdatePlaylistDto } from './dto/update-playlist.dto';
-import { Playlist } from './entities/playlist.entity';
-import { CreatePlaylistDto } from './dto/create-playlist.dto';
+import { Injectable } from '@nestjs/common';
 import { PlaylistRepository } from './repositories/playlist.repository';
 import { MusicService } from 'src/music/music.service';
-import { Injectable } from '@nestjs/common';
+import { CreatePlaylistDto } from './dto/create-playlist.dto';
+import { UpdatePlaylistDto } from './dto/update-playlist.dto';
+import { Playlist } from './entities/playlist.entity';
+import { Music } from 'src/music/entities/music.entity';
 
 @Injectable()
 export class PlaylistService {
@@ -20,11 +20,9 @@ export class PlaylistService {
       for (const musicDto of createPlaylistDto.musics) {
         let music: Music;
 
-        if (musicDto.id) {
-          music = await this.musicService.findOne(musicDto.id);
-          if (!music) {
-            throw new Error(`Music not found for ID: ${musicDto.id}`);
-          }
+        music = await this.musicService.findByProperties(musicDto);
+        if (!music) {
+          music = await this.musicService.create(musicDto);
         }
         musicEntities.push(music);
       }
@@ -34,6 +32,7 @@ export class PlaylistService {
       musicEntities,
     );
   }
+
   async update(
     id: number,
     updatePlaylistDto: UpdatePlaylistDto,
@@ -44,15 +43,10 @@ export class PlaylistService {
       for (const musicDto of updatePlaylistDto.musics) {
         let music: Music;
 
-        if (musicDto.id) {
-          music = await this.musicService.findOne(musicDto.id);
-          if (!music) {
-            throw new Error(`Music not found for ID: ${musicDto.id}`);
-          }
-        } else {
+        music = await this.musicService.findByProperties(musicDto);
+        if (!music) {
           music = await this.musicService.create(musicDto);
         }
-
         musicEntities.push(music);
       }
     }

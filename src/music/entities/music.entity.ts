@@ -20,22 +20,23 @@ export class Music {
   name: string;
 
   @Column({ type: 'text', nullable: false })
-  url: string;
+  musicImage: string;
+
+  @Column({ type: 'text', nullable: false })
+  musicAudio: string;
 
   @Column()
-  albumId:number;
+  albumId: number;
 
-  @ManyToOne(() => Album, (album) => album.musics)
+  @ManyToOne(() => Album, (album) => album.musics, { onDelete: 'CASCADE' })
   album: Album;
 
   @ManyToOne(() => Artist, (artist) => artist.musics)
   artist: Artist;
 
   @OneToMany(() => Listener, (listener) => listener.music)
-  listeners:Listener[]
+  listeners: Listener[];
 
   @ManyToMany(() => Playlist, (playlist) => playlist.musics)
-  playlists:Playlist[]
-
-
+  playlists: Playlist[];
 }

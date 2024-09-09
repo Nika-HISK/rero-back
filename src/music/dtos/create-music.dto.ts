@@ -1,15 +1,18 @@
 import { IsNumber, IsString } from 'class-validator';
 
 export class CreateMusicDto {
-  @IsString()
-  name: string;
+  
+  name: any;
 
-  @IsString()
-  url: string;
+  
+  musicImage: any;
 
-  @IsNumber()
-  id: number;
+ 
+  musicAudio: any;
 
-  @IsNumber()
-  artistId: number;
+
+  artistId: any;
+
+ 
+  albumId: any;
 }
