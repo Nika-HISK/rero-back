@@ -11,20 +11,24 @@ export class MusicRepository {
     @InjectRepository(Music)
     private readonly musicRepository: Repository<Music>,
   ) {}
-
+   
   async create(data: CreateMusicDto): Promise<Music> {
     const newMusic = this.musicRepository.create(data);
     return await this.musicRepository.save(newMusic);
   }
 
   async findAll(search?: string): Promise<Music[]> {
+    const sql = this.musicRepository.createQueryBuilder('music')
+    .leftJoinAndSelect('music.artist', 'artist')
+
     if (search) {
-      return this.musicRepository.find({
-        where: { name: Like(`%${search}%`) },
-      });
+        sql.where ('music.name LIKE :search', {search})
+
     }
-    return this.musicRepository.find();
+    const correct = await sql.getMany()
+    return correct
   }
+
   async findOneByProperties(
     createMusicDto: CreateMusicDto,
   ): Promise<Music | null> {

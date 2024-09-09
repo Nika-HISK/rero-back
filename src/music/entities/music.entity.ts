@@ -23,6 +23,12 @@ export class Music {
   url: string;
 
   @Column()
+  cover:string
+
+  @Column()
+  duration:string
+
+  @Column()
   albumId:number;
 
   @ManyToOne(() => Album, (album) => album.musics)

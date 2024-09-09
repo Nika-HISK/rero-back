@@ -10,6 +10,12 @@ export class CreateMusicDto {
   @IsNumber()
   id: number;
 
+  @IsString()
+  duration:string
+
+  @IsString()
+  cover:string
+
   @IsNumber()
   artistId: number;
 }

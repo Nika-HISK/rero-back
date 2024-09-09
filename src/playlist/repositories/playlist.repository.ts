@@ -19,14 +19,17 @@ export class PlaylistRepository {
   ): Promise<Playlist> {
     const newPlaylist = this.playlistRepository.create({
       name: createPlaylistDto.name,
-      description: createPlaylistDto.description,
       musics: musics,
     });
     return await this.playlistRepository.save(newPlaylist);
   }
 
   async findAll(): Promise<Playlist[]> {
-    return await this.playlistRepository.find({ relations: ['musics'] });
+    return await this.playlistRepository.createQueryBuilder('playlist')
+    .leftJoinAndSelect('playlist.musics', 'music')
+    .leftJoinAndSelect('music.artist', 'artist')
+    .getMany()
+
   }
 
   async findOne(id: number): Promise<Playlist> {
@@ -49,8 +52,7 @@ export class PlaylistRepository {
     const updatedPlaylist = {
       ...existingPlaylist,
       name: updatePlaylistDto.name ?? existingPlaylist.name,
-      description:
-        updatePlaylistDto.description ?? existingPlaylist.description,
+
       musics: musics.length > 0 ? musics : existingPlaylist.musics,
     };
 

@@ -6,6 +6,7 @@ import { CreateArtistDto } from "../dtos/create-artist.dto";
 import { UpdateArtistDto } from "../dtos/update-artist.dto";
 
 
+
 @Injectable()
 export class ArtistRepository {
     constructor(
@@ -14,15 +15,17 @@ export class ArtistRepository {
     ) { }
     async findAll(search?: string) {
         const sql = this.artistRepo.createQueryBuilder('artist')
-        .leftJoinAndSelect('artist.albums', 'album')
-        .leftJoinAndSelect('artist.musics', 'music');
-
+            .leftJoinAndSelect('artist.albums', 'album')
+            .leftJoinAndSelect('album.musics', 'albumHits') 
+            .leftJoinAndSelect('artist.musics', 'music');    
+    
         if (search) {
-            sql.where ('artist.artistName LIKE :search', {search})
-
+            sql.where('artist.artistName LIKE :search', { search: `%${search}%` });
         }
-        const raghaca = await sql.getMany()
-        return raghaca
+    
+        const artists = await sql.getMany();
+        return artists
+
     }
     findOne(id: number) {
         return this.artistRepo.findOneBy({ id })
