@@ -20,7 +20,7 @@ export class AlbumRepository {
             .leftJoinAndSelect('album.musics', 'albumHits') 
     
         if (search) {
-            sql.where('album.albumName LIKE :search', { search: `%${search}%` });
+            sql.where('album.name LIKE :search', { search: `%${search}%` });
         }
     
         const albums = await sql.getMany();
@@ -33,7 +33,7 @@ export class AlbumRepository {
                     duration: music.duration || 'N/A', 
                     cover: music.cover || '',          
                     artistName: album.artist?.artistName || 'Unknown',  
-                    albumName: album.albumName,        
+                    name: album.name,        
                     music: music.name                  
                 })),
                 musics: undefined

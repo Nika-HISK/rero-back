@@ -25,8 +25,8 @@ export class MusicRepository {
         sql.where ('music.name LIKE :search', {search})
 
     }
-    const raghaca = await sql.getMany()
-    return raghaca
+    const correct = await sql.getMany()
+    return correct
   }
 
   async findOneByProperties(

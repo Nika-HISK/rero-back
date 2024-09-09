@@ -34,7 +34,7 @@ export class ArtistRepository {
                         duration: music.duration || 'N/A',
                         cover: music.cover || '',           
                         artistName: artist.artistName,      
-                        albumName: album.albumName,         
+                        name: album.name,         
                         music: music.name                   
                     })),
                     musics: undefined  
