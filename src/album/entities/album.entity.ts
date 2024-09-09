@@ -11,7 +11,6 @@ export class Album {
     @Column({ type: 'varchar', nullable: false })
     albumName: string
 
-
     @Column({ nullable: false })
     releaseDate: string
 

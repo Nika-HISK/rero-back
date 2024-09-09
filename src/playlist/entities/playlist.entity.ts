@@ -19,9 +19,6 @@ export class Playlist {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  description?: string;
-
   @ManyToMany(() => Music, (music) => music.playlists, { cascade: true })
   @JoinTable()
   musics: Music[];
@@ -33,9 +30,9 @@ export class Playlist {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({nullable:false})
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({nullable:false})
   deletedAt: Date;
 }

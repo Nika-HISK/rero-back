@@ -11,7 +11,7 @@ export class MusicRepository {
     @InjectRepository(Music)
     private readonly musicRepository: Repository<Music>,
   ) {}
-
+   
   async create(data: CreateMusicDto): Promise<Music> {
     const newMusic = this.musicRepository.create(data);
     return await this.musicRepository.save(newMusic);
@@ -26,7 +26,9 @@ export class MusicRepository {
 
     }
     const raghaca = await sql.getMany()
-    return raghaca}
+    return raghaca
+  }
+
   async findOneByProperties(
     createMusicDto: CreateMusicDto,
   ): Promise<Music | null> {
