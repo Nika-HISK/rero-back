@@ -34,7 +34,7 @@ export class AuthService {
     if (!isPasswordCorrect) {
       throw new HttpException('The email or password you entered is incorrect', HttpStatus.BAD_REQUEST);
     }
-    const payload = { i: user.id, email: user.email, role: user.role};
+    const payload = { sub: user.id, email: user.email, role: user.role};
     return {
       accessToken: await this.jwtService.signAsync(payload, Jwtconstantcs),
     };
