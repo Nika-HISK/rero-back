@@ -33,10 +33,13 @@ export class PlaylistRepository {
   }
 
   async findOne(id: number): Promise<Playlist> {
-    return await this.playlistRepository.findOne({
-      where: { id },
-      relations: ['musics'],
-    });
+    const playlist = await this.playlistRepository.createQueryBuilder('playlist')
+    .leftJoinAndSelect('playlist.musics', 'music')
+    .leftJoinAndSelect('music.artist', 'artist')
+    .where('artist.id = :id', { id })
+    .getOne()
+
+    return playlist
   }
 
   async update(

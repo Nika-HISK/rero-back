@@ -42,7 +42,13 @@ export class MusicRepository {
   }
 
   async findOne(id: number): Promise<Music> {
-    return this.musicRepository.findOneBy({ id });
+    const music = await this.musicRepository.createQueryBuilder('music')
+    .leftJoinAndSelect('music.artist', 'artist') 
+    .where('music.id = :id', { id })
+    .getOne()
+    
+    return music
+
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto): Promise<Music> {
