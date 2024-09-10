@@ -30,8 +30,13 @@ export class AlbumRepository {
     
     
 
-    findOne(id: number) {
-        return this.albumRepo.findOneBy({ id })
+    async findOne(id: number) {
+        const album = await this.albumRepo.createQueryBuilder('album')
+            .leftJoinAndSelect('album.musics', 'albumHits')
+            .where('album.id = :id', { id })
+            .getOne();
+    
+        return album;
     }
 
     delete(id: number) {

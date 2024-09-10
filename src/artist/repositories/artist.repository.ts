@@ -27,9 +27,17 @@ export class ArtistRepository {
         return artists
 
     }
-    findOne(id: number) {
-        return this.artistRepo.findOneBy({ id })
+    async findOne(id: number) {
+        const artist = await this.artistRepo.createQueryBuilder('artist')
+            .leftJoinAndSelect('artist.albums', 'album')
+            .leftJoinAndSelect('album.musics', 'albumHits')
+            .leftJoinAndSelect('artist.musics', 'music')
+            .where('artist.id = :id', { id })
+            .getOne(); 
+    
+        return artist;
     }
+    
 
     create(data: CreateArtistDto) {
         const newArtist = this.artistRepo.create(data)
