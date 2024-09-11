@@ -13,6 +13,8 @@ import { Playlist } from './playlist/entities/playlist.entity';
 import { Music } from './music/entities/music.entity';
 import { PlaylistModule } from './playlist/playlist.module';
 import { AuthModule } from './auth/auth.module';
+import { Artist } from './artist/entities/artist.entity';
+import { Album } from './album/entities/album.entity';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { AuthModule } from './auth/auth.module';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      entities: [Playlist, Music],
+      entities: [Playlist, Music, Artist, Album],
     }),
     AlbumModule,
     ArtistModule,
