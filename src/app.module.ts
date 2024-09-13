@@ -15,6 +15,7 @@ import { PlaylistModule } from './playlist/playlist.module';
 import { AuthModule } from './auth/auth.module';
 import { Artist } from './artist/entities/artist.entity';
 import { Album } from './album/entities/album.entity';
+import { ShuffleModule } from './shuffle/shuffle.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { Album } from './album/entities/album.entity';
     ListenersModule,
     PlaylistModule,
     AuthModule,
+    ShuffleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
