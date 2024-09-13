@@ -11,8 +11,6 @@ export class Artist {
     @Column({ type: 'varchar', length: 30, nullable: false })
     artistName: string
 
-
-
     @Column({ nullable: false })
     artistPhoto: string
 

@@ -19,7 +19,7 @@ export class Album {
   @Column({ nullable: false })
   releaseDate: string;
 
-  @OneToMany(() => Music, (musics) => musics.album)
+  @OneToMany(() => Music, (musics) => musics.album,)
   musics: Music[];
 
   @Column()

@@ -7,14 +7,11 @@ export class CreateMusicDto {
   @IsString()
   url: string;
 
-  @IsNumber()
-  id: number;
+  @IsString()
+  duration: string;
 
   @IsString()
-  duration:string
-
-  @IsString()
-  cover:string
+  cover: string;
 
   @IsNumber()
   artistId: number;

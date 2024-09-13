@@ -16,6 +16,9 @@ import { AuthModule } from './auth/auth.module';
 import { Artist } from './artist/entities/artist.entity';
 import { Album } from './album/entities/album.entity';
 import { ShuffleModule } from './shuffle/shuffle.module';
+import { FilesModule } from './files/files.module';
+import { AwsModule } from './aws/aws.module';
+import { FileEntity } from './files/entities/file.entity';
 
 @Module({
   imports: [
@@ -30,7 +33,7 @@ import { ShuffleModule } from './shuffle/shuffle.module';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      entities: [Playlist, Music, Artist, Album],
+      entities: [Playlist, Music, Artist, Album, FileEntity],
     }),
     AlbumModule,
     ArtistModule,
@@ -40,6 +43,8 @@ import { ShuffleModule } from './shuffle/shuffle.module';
     PlaylistModule,
     AuthModule,
     ShuffleModule,
+    FilesModule,
+    AwsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
