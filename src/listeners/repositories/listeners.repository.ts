@@ -19,7 +19,8 @@ export class ListenersRepository {
 
     const mostViewedRequest = await this.listenerRepo
       .createQueryBuilder('music')
-      .select(['music.id', 'musicId'] && ['COUNT(music.id)', 'viewCount'])
+      .select(['music.id as musicId',
+      'COUNT(music.id) as viewCount'])
       .where('music.createdAt BETWEEN :startDate AND :endDate', {
         startDate,
         endDate,
@@ -40,7 +41,8 @@ export class ListenersRepository {
 
     const mostViewedRequest = await this.listenerRepo
     .createQueryBuilder('music')
-    .select(['music.id', 'musicId'] && ['COUNT(music.id)', 'viewCount'])
+    .select(['music.id as musicId',
+    'COUNT(music.id) as viewCount'])    
     .where('music.createdAt BETWEEN :startDate AND :endDate', {
       startDate,
       endDate,
@@ -61,7 +63,8 @@ export class ListenersRepository {
 
     const mostViewedRequest = await this.listenerRepo
     .createQueryBuilder('music')
-    .select(['music.id', 'musicId'] && ['COUNT(music.id)', 'viewCount'])
+    .select(['music.id as musicId',
+    'COUNT(music.id) as viewCount'])
     .where('music.createdAt BETWEEN :startDate AND :endDate', {
       startDate,
       endDate,
