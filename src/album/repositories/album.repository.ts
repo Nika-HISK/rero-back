@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Album } from '../entities/album.entity';
 import { CreateAlbumDto } from '../dtos/create-album.dto';
 import { UpdateAlbumDto } from '../dtos/update-album.dto';
@@ -13,36 +13,36 @@ export class AlbumRepository {
   ) {}
 
   async findAll(search?: string) {
-    const sql = this.albumRepo
+    const queryBuilder = this.albumRepo
       .createQueryBuilder('album')
-      .leftJoinAndSelect('album.musics', 'albumHits')
+      .leftJoinAndSelect('album.musics', 'music')
       .leftJoinAndSelect('album.artist', 'artist');
-
+  
     if (search) {
-      sql.where('album.name LIKE :search', { search: `%${search}%` });
+      queryBuilder.where('album.name LIKE :search', { search: `%${search}%` });
     }
-
-    const albums = await sql.getMany();
+  
+    const albums = await queryBuilder.getMany();
     return albums;
   }
-
+  
   async findOne(id: number) {
     const album = await this.albumRepo
       .createQueryBuilder('album')
-      .leftJoinAndSelect('album.musics', 'albumHits')
+      .leftJoinAndSelect('album.musics', 'music')
       .leftJoinAndSelect('album.artist', 'artist')
       .where('album.id = :id', { id })
       .getOne();
-
+  
     return album;
   }
+
   delete(id: number) {
     return this.albumRepo.delete(id);
   }
 
   create(data: CreateAlbumDto) {
     const newAlbum = this.albumRepo.create(data);
-
     return this.albumRepo.save(newAlbum);
   }
 

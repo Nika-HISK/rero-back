@@ -12,9 +12,13 @@ export class MusicRepository {
     private readonly musicRepository: Repository<Music>,
   ) {}
 
-  async create(data: CreateMusicDto): Promise<Music> {
-    const newMusic = this.musicRepository.create(data);
-    return await this.musicRepository.save(newMusic);
+  async create(data: CreateMusicDto, duration?: string): Promise<Music> {
+    const newMusic = this.musicRepository.create({
+      ...data,
+      duration: duration || null,
+    });
+    console.log('Repository saving music with duration:', duration);
+    return this.musicRepository.save(newMusic);
   }
 
   async findAll(search?: string): Promise<Music[]> {
@@ -36,13 +40,11 @@ export class MusicRepository {
     });
   }
 
-  async findByProperties(
-    createMusicDto: CreateMusicDto,
-  ): Promise<Music | null> {
+  async findByProperties(createMusicDto: CreateMusicDto): Promise<Music | null> {
     return this.musicRepository.findOne({
       where: {
         name: createMusicDto.name,
-        url: createMusicDto.url,
+        musicAudio: createMusicDto.musicAudio,
         artist: { id: createMusicDto.artistId },
       },
       relations: ['artist'],

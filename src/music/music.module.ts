@@ -6,9 +6,15 @@ import { Music } from './entities/music.entity';
 import { MusicRepository } from './repositories/music.repository';
 import { AwsModule } from 'src/aws/aws.module';
 import { FilesModule } from 'src/files/files.module';
+import { ArtistModule } from 'src/artist/artist.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Music]), AwsModule, FilesModule],
+  imports: [
+    TypeOrmModule.forFeature([Music]),
+    AwsModule,
+    FilesModule,
+    ArtistModule,
+  ],
   controllers: [MusicController],
   providers: [MusicService, MusicRepository],
   exports: [MusicService],

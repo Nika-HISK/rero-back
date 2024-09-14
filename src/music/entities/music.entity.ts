@@ -8,6 +8,7 @@ import {
   ManyToOne,
   OneToMany,
   ManyToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Listener } from 'src/listeners/entities/listener.entity';
 
@@ -19,29 +20,31 @@ export class Music {
   @Column({ type: 'varchar', length: 70, nullable: false })
   name: string;
 
-  @Column({ type: 'text', nullable: false })
-  url: string;
+  @Column({ nullable: false })
+  musicAudio: string;
 
-  @Column()
-  cover:string
+  @Column({ nullable: false })
+  coverImage: string;
 
-  @Column()
-  duration:string
+  @Column({ type: 'varchar', length: 10, nullable: true })
+  duration?: string;
 
-  @Column()
-  albumId:number;
+  @Column({ nullable: true })
+  albumId: number;
+
+  @Column({ type: 'int' })
+  artistId: number;
 
   @ManyToOne(() => Album, (album) => album.musics)
   album: Album;
 
   @ManyToOne(() => Artist, (artist) => artist.musics)
+  @JoinColumn({ name: 'artistId' })
   artist: Artist;
 
   @OneToMany(() => Listener, (listener) => listener.music)
-  listeners:Listener[]
+  listeners: Listener[];
 
   @ManyToMany(() => Playlist, (playlist) => playlist.musics)
-  playlists:Playlist[]
-
-
+  playlists: Playlist[];
 }

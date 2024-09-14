@@ -1,18 +1,32 @@
-import { IsNumber, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateMusicDto {
   @IsString()
   name: string;
 
+  @IsOptional()
   @IsString()
-  url: string;
+  musicAudio?: string;
 
+  @IsOptional()
   @IsString()
-  duration: string;
+  coverImage?: string;
 
+  @IsOptional()
   @IsString()
-  cover: string;
+  duration?: string;
 
-  @IsNumber()
+  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
+  @IsNumber({}, { message: 'artistId must be a number' })
   artistId: number;
+
+  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
+  @IsOptional()
+  @IsNumber({}, { message: 'albumId must be a number' })
+  albumId?: number;
 }

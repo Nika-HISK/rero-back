@@ -19,11 +19,6 @@ export class PlaylistService {
     if (createPlaylistDto.musics && createPlaylistDto.musics.length > 0) {
       for (const musicDto of createPlaylistDto.musics) {
         let music = await this.musicService.findByProperties(musicDto);
-
-        if (!music) {
-          music = await this.musicService.create(musicDto);
-        }
-
         musicEntities.push(music);
       }
     }
@@ -43,11 +38,6 @@ export class PlaylistService {
     if (updatePlaylistDto.musics && updatePlaylistDto.musics.length > 0) {
       for (const musicDto of updatePlaylistDto.musics) {
         let music = await this.musicService.findByProperties(musicDto);
-
-        if (!music) {
-          music = await this.musicService.create(musicDto);
-        }
-
         musicEntities.push(music);
       }
     }
