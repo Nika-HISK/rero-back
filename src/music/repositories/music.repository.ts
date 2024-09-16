@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Music } from '../entities/music.entity';
 import { CreateMusicDto } from '../dtos/create-music.dto';
 import { UpdateMusicDto } from '../dtos/update-music.dto';
@@ -11,44 +11,44 @@ export class MusicRepository {
     @InjectRepository(Music)
     private readonly musicRepository: Repository<Music>,
   ) {}
-   
-  async create(data: CreateMusicDto): Promise<Music> {
-    const newMusic = this.musicRepository.create(data);
-    return await this.musicRepository.save(newMusic);
+
+  async create(data: CreateMusicDto, duration?: string): Promise<Music> {
+    const newMusic = this.musicRepository.create({
+      ...data,
+      duration: duration || null,
+    });
+    console.log('Repository saving music with duration:', duration);
+    return this.musicRepository.save(newMusic);
   }
 
   async findAll(search?: string): Promise<Music[]> {
-    const sql = this.musicRepository.createQueryBuilder('music')
-    .leftJoinAndSelect('music.artist', 'artist')
+    const query = this.musicRepository
+      .createQueryBuilder('music')
+      .leftJoinAndSelect('music.artist', 'artist');
 
     if (search) {
-        sql.where ('music.name LIKE :search', {search})
-
+      query.where('music.name LIKE :search', { search: `%${search}%` });
     }
-    const correct = await sql.getMany()
-    return correct
+
+    return await query.getMany();
   }
 
-  async findOneByProperties(
-    createMusicDto: CreateMusicDto,
-  ): Promise<Music | null> {
+  async findOne(id: number): Promise<Music | null> {
     return this.musicRepository.findOne({
-      where: {
-        name: createMusicDto.name,
-        url: createMusicDto.url,
-        artist: { id: createMusicDto.artistId },
-      },
+      where: { id },
+      relations: ['artist'],
     });
   }
 
-  async findOne(id: number): Promise<Music> {
-    const music = await this.musicRepository.createQueryBuilder('music')
-    .leftJoinAndSelect('music.artist', 'artist') 
-    .where('music.id = :id', { id })
-    .getOne()
-    
-    return music
-
+  async findByProperties(createMusicDto: CreateMusicDto): Promise<Music | null> {
+    return this.musicRepository.findOne({
+      where: {
+        name: createMusicDto.name,
+        musicAudio: createMusicDto.musicAudio,
+        artist: { id: createMusicDto.artistId },
+      },
+      relations: ['artist'],
+    });
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto): Promise<Music> {

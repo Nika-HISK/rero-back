@@ -1,5 +1,5 @@
-import { Artist } from 'src/artist/entities/artist.entity';
 import { Music } from 'src/music/entities/music.entity';
+import { Artist } from 'src/artist/entities/artist.entity';
 import {
   Column,
   Entity,
@@ -16,14 +16,18 @@ export class Album {
   @Column({ type: 'varchar', nullable: false })
   name: string;
 
-  @Column({ nullable: false })
+ 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   releaseDate: string;
 
-  @OneToMany(() => Music, (musics) => musics.album)
-  musics: Music[];
+  @Column({ nullable: true })
+  albumCover: string;
 
+  @OneToMany(() => Music, (music) => music.album)
+  musics: Music[];
+  
   @Column()
-  artistId: Number;
+  artistId: number;
 
   @ManyToOne(() => Artist, (artist) => artist.albums)
   artist: Artist;

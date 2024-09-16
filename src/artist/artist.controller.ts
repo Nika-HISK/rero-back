@@ -6,25 +6,38 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { CreateArtistDto } from './dtos/create-artist.dto';
 import { UpdateArtistDto } from './dtos/update-artist.dto';
 import { Role } from 'src/auth/guard/enum/role.enum';
 import { Roles } from 'src/auth/guard/jwt-roles.guard';
+import { FilesService } from 'src/files/files.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('artist')
 export class ArtistController {
-  constructor(private readonly artistService: ArtistService) { }
+  constructor(
+    private readonly artistService: ArtistService,
+    private readonly filesService: FilesService,
+  ) {}
 
   @Roles(Role.ADMIN)
   @Post()
-  create(@Body() createArtistDto: CreateArtistDto) {
+  @UseInterceptors(FileInterceptor('artistPhoto'))
+  async create(
+    @UploadedFile() artistPhoto: Express.Multer.File,
+    @Body() createArtistDto: CreateArtistDto,
+  ) {
+    if (artistPhoto) {
+      // Upload the file and get its URL
+      const uploadedPhoto = await this.filesService.uploadFile(artistPhoto);
+      createArtistDto.artistPhoto = uploadedPhoto.url;
+    }
     return this.artistService.create(createArtistDto);
   }
-
-
-
   @Roles(Role.USER, Role.ADMIN)
   @Get('')
   findAll() {
@@ -39,7 +52,17 @@ export class ArtistController {
 
   @Roles(Role.ADMIN)
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateArtistDto: UpdateArtistDto) {
+  @UseInterceptors(FileInterceptor('artistPhoto'))
+  async update(
+    @Param('id') id: string,
+    @UploadedFile() artistPhoto: Express.Multer.File,
+    @Body() updateArtistDto: UpdateArtistDto
+  ) {
+    if (artistPhoto) {
+
+      const uploadedPhoto = await this.filesService.uploadFile(artistPhoto);
+      updateArtistDto.artistPhoto = uploadedPhoto.url;
+    }
     return this.artistService.update(Number(id), updateArtistDto);
   }
 

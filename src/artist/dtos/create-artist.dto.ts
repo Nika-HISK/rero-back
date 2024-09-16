@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsString, ValidateNested } from "class-validator";
+import { IsOptional, IsString, ValidateNested } from "class-validator";
 import { CreateAlbumDto } from "src/album/dtos/create-album.dto";
 import { CreateMusicDto } from "src/music/dtos/create-music.dto";
 
@@ -10,8 +10,9 @@ export class CreateArtistDto {
     @IsString()
     biography: string;
 
+    @IsOptional()
     @IsString()
-    artistPhoto: string;
+    artistPhoto?: string;
 
     @ValidateNested({ each: true })
     @Type(() => CreateMusicDto)
