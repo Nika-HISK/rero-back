@@ -6,7 +6,13 @@ import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
 import { Role } from 'src/auth/guard/enum/role.enum';
 import { Roles } from 'src/auth/guard/jwt-roles.guard';
-
+// import * as ffmpeg from 'fluent-ffmpeg';
+// import * as ffmpegStatic from 'ffmpeg-static';
+// import * as tmp from 'tmp'
+// import ffprobePath from '@ffprobe-installer/ffprobe';
+const ffmpeg = require('fluent-ffmpeg');
+const ffprobePath = require('@ffprobe-installer/ffprobe').path;
+ffmpeg.setFfprobePath(ffprobePath);
 @Controller('music')
 export class MusicController {
   constructor(
@@ -25,13 +31,22 @@ export class MusicController {
   async create(
     @UploadedFiles()
     files: {
-      musicAudio?: Express.Multer.File[];
+      musicAudio?: any;
       coverImage?: Express.Multer.File[];
     },
     @Body() createMusicDto: CreateMusicDto,
   ) {
     let duration: number | undefined;
-
+    
+    duration = await new Promise<number>((resolve, reject) => {
+      ffmpeg.ffprobe('https://reroapp-bucket.s3.amazonaws.com/NF_-_The_Search_CeeNaija.com_.mp3', (err, metadata) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(metadata.format.duration);
+      });
+    });
+    console.log(duration , 'duration')
     if (files.musicAudio && files.musicAudio[0]) {
       const musicAudio = files.musicAudio[0];
       createMusicDto.musicAudio = (await this.filesService.uploadFile(musicAudio)).url;
