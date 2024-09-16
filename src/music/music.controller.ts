@@ -69,6 +69,12 @@ export class MusicController {
   }
 
   @Roles(Role.USER, Role.ADMIN)
+  @Get('/shuffle')
+  findShuffledArray() {
+    return this.musicService.findShuffledArray()
+  }
+
+  @Roles(Role.USER, Role.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.musicService.findOne(Number(id));

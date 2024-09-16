@@ -19,6 +19,10 @@ export class MusicService {
     return this.musicRepository.findAll(search);
   }
 
+  async findShuffledArray() {
+    return await this.musicRepository.findShuffledArray()
+  }
+
   async findOne(id: number): Promise<Music | null> {
     return this.musicRepository.findOne(id);
   }

@@ -40,7 +40,9 @@ export class MusicRepository {
     });
   }
 
-  async findByProperties(createMusicDto: CreateMusicDto): Promise<Music | null> {
+  async findByProperties(
+    createMusicDto: CreateMusicDto,
+  ): Promise<Music | null> {
     return this.musicRepository.findOne({
       where: {
         name: createMusicDto.name,
@@ -58,5 +60,17 @@ export class MusicRepository {
 
   async remove(id: number): Promise<void> {
     await this.musicRepository.delete(id);
+  }
+  async findShuffledArray() {
+    const musicListWithArtists = await this.musicRepository
+      .createQueryBuilder('music')
+      .leftJoinAndSelect('music.artist', 'artist')
+      .getMany();
+  
+    return this.shuffleArray(musicListWithArtists);
+  }
+  
+  private shuffleArray(array: any[]): any[] {
+    return array.sort(() => Math.random() - 0.5);
   }
 }
