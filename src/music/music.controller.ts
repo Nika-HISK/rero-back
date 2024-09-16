@@ -6,10 +6,8 @@ import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
 import { Role } from 'src/auth/guard/enum/role.enum';
 import { Roles } from 'src/auth/guard/jwt-roles.guard';
-// import * as ffmpeg from 'fluent-ffmpeg';
-// import * as ffmpegStatic from 'ffmpeg-static';
-// import * as tmp from 'tmp'
-// import ffprobePath from '@ffprobe-installer/ffprobe';
+
+
 const ffmpeg = require('fluent-ffmpeg');
 const ffprobePath = require('@ffprobe-installer/ffprobe').path;
 ffmpeg.setFfprobePath(ffprobePath);
@@ -46,7 +44,6 @@ export class MusicController {
         resolve(metadata.format.duration);
       });
     });
-    console.log(duration , 'duration')
     if (files.musicAudio && files.musicAudio[0]) {
       const musicAudio = files.musicAudio[0];
       createMusicDto.musicAudio = (await this.filesService.uploadFile(musicAudio)).url;
@@ -62,12 +59,7 @@ export class MusicController {
       const uploadedCover = await this.filesService.uploadFile(files.coverImage[0]);
       createMusicDto.coverImage = uploadedCover.url;
     }
-
-    console.log('Creating music with DTO:', createMusicDto);
-    console.log('Service creating music with duration:', duration);
-
     const durationString = duration ? this.formatDuration(duration) : undefined;
-
     return this.musicService.create(createMusicDto, durationString);
   }
 
