@@ -35,19 +35,12 @@ export class FilesService {
       path: file.path,
     };
   }
-
   async extractAudioDuration(fileBuffer: Buffer): Promise<number> {
     try {
       console.log('Processing file buffer size:', fileBuffer.length);
-
       const metadata = await musicMetadata.parseBuffer(fileBuffer);
-
-      console.log('Metadata parsed:', metadata);
-
       const duration = metadata.format.duration;
-
       if (duration) {
-        console.log('Extracted duration:', duration);
         return duration;
       } else {
         throw new Error('Duration not found in metadata');
