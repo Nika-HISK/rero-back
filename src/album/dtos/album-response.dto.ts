@@ -7,5 +7,4 @@ export class AlbumResponseDto {
   releaseDate: string;
   musics: Music[];
   artist: Artist;
-  albumCover: string;
 }
