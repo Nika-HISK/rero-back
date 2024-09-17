@@ -3,6 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
@@ -11,9 +12,11 @@ import { IS_PUBLIC_KEY } from './jwt.strategy';
 import { Role } from './enum/role.enum';
 import { ROLES_KEY } from './jwt-roles.guard';
 import { Jwtconstantcs } from './secret';
+import { UserRepository } from 'src/user/repositories/user.repository';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
+    private readonly userRepository:UserRepository,
     private jwtService: JwtService,
     private reflector: Reflector,
   ) {}
@@ -37,6 +40,7 @@ export class AuthGuard implements CanActivate {
         secret: Jwtconstantcs.secret,
       });
       const requiredRoles = this.getRequiredRoles(context);
+
 
       if (requiredRoles.length) {
         return requiredRoles.some((role) => payload.role === role);      }

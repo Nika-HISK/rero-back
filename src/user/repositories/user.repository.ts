@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -24,7 +24,7 @@ export class UserRepository {
   }
 
   findAll() {
-    return this.userRepo.find();
+    return this.userRepo.find()
   }
 
   findOne(id: number) {
@@ -41,5 +41,24 @@ export class UserRepository {
 
   delete(id: number) {
     return this.userRepo.delete(id);
+  }
+
+
+  async banUser(id: number) {
+    const user = await this.userRepo.findOneBy({id})
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    user.banned = true;
+    return this.userRepo.save(user);
+  }
+
+  async unbanUser(id: number) {
+    const user = await this.userRepo.findOneBy({id});
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    user.banned = false;
+    return this.userRepo.save(user);
   }
 }

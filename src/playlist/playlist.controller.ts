@@ -17,7 +17,7 @@ import { Role } from 'src/auth/guard/enum/role.enum';
 export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.USER, Role.ADMIN)
   @Post()
   create(@Body() createPlaylistDto: CreatePlaylistDto) {
     return this.playlistService.create(createPlaylistDto);
