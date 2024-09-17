@@ -47,11 +47,7 @@ export class MusicController {
       const uploadedCover = await this.filesService.uploadFile(files.coverImage[0]);
       createMusicDto.coverImage = uploadedCover.url;
     }
-
-    console.log('Creating music with DTO:', createMusicDto);
-    console.log('Service creating music with duration:', duration);
-
-    const durationString = duration ? this.formatDuration(duration) : undefined;
+   const durationString = duration ? this.formatDuration(duration) : undefined;
 
     return this.musicService.create(createMusicDto, durationString);
   }

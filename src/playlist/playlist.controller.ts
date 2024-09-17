@@ -17,7 +17,7 @@ import { Role } from 'src/auth/guard/enum/role.enum';
 export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
-  @Roles(Role.USER,Role.ADMIN)
+  @Roles(Role.USER, Role.ADMIN)
   @Post()
   create(@Body() createPlaylistDto: CreatePlaylistDto) {
     return this.playlistService.create(createPlaylistDto);
@@ -44,7 +44,7 @@ export class PlaylistController {
     return this.playlistService.update(Number(id), updatePlaylistDto);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.USER)
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.playlistService.delete(Number(id));
