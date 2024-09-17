@@ -63,12 +63,19 @@ export class MusicService {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
-  async findAll(search?: string): Promise<Music[]> {
-    return this.musicRepository.findAll(search);
+  async findAll(search?: string): Promise<Partial<Music>[]> {
+    const musicList = await this.musicRepository.findAll(search);
+    return musicList.map(({ albumId, artistId, ...music }) => music);
   }
 
-  async findOne(id: number): Promise<Music | null> {
-    return this.musicRepository.findOne(id);
+  async findOne(id: number): Promise<Partial<Music> | null> {
+    const music = await this.musicRepository.findOne(id);
+    if (music) {
+      const { albumId, artistId, ...musicWithoutIds } = music;
+      return musicWithoutIds;
+    }
+
+    return null;
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto): Promise<Music> {
