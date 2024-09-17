@@ -63,6 +63,13 @@ export class MusicService {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
+
+  async findShuffledArray() {
+    return await this.musicRepository.findShuffledArray()
+  }
+
+  async findOne(id: number): Promise<Music | null> {
+    return this.musicRepository.findOne(id);
   async findAll(search?: string): Promise<Partial<Music>[]> {
     const musicList = await this.musicRepository.findAll(search);
     return musicList.map(({ albumId, artistId, ...music }) => music);
