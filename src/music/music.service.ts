@@ -41,3 +41,4 @@ export class MusicService {
     return this.musicRepository.findByProperties(createMusicDto);
   }
 }
+
