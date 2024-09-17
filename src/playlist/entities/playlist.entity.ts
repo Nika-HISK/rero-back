@@ -17,7 +17,7 @@ export class Playlist {
   id: number;
 
   @Column()
-  name: string;
+  playlistName: string;
 
   @ManyToMany(() => Music, (music) => music.playlists, { cascade: true })
   @JoinTable()

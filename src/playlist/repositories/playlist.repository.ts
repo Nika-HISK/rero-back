@@ -18,7 +18,7 @@ export class PlaylistRepository {
     musics: Music[] = [],
   ): Promise<Playlist> {
     const newPlaylist = this.playlistRepository.create({
-      name: createPlaylistDto.name,
+      playlistName: createPlaylistDto.playlistName,
       musics: musics,
     });
     return await this.playlistRepository.save(newPlaylist);
@@ -54,7 +54,7 @@ export class PlaylistRepository {
 
     const updatedPlaylist = {
       ...existingPlaylist,
-      name: updatePlaylistDto.name ?? existingPlaylist.name,
+      playlistName: updatePlaylistDto.playlistName ?? existingPlaylist.playlistName,
 
       musics: musics.length > 0 ? musics : existingPlaylist.musics,
     };
