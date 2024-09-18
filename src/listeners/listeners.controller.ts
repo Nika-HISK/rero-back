@@ -10,18 +10,7 @@ export class ListenersController {
 
   @Roles(Role.USER, Role.ADMIN)
   @Get()
-  getStatistics(@Query() query: CreateListenerDto) {
-    const { timestamp } = query;
-
-    switch (timestamp) {
-      case 'today':
-        return this.listenersService.todays();
-      case 'week':
-        return this.listenersService.weeks();
-      case 'month':
-        return this.listenersService.months();
-      default:
-        return { message: 'use today week or month' };
-    }
+  getStatistics(): Promise<any[]> {
+    return this.listenersService.getStatistics()
   }
 }

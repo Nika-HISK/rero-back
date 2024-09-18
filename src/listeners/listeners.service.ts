@@ -8,17 +8,8 @@ export class ListenersService {
 
 constructor(private readonly listenersrepository:ListenersRepository) {}
 
-
-  todays() {
-    return this.listenersrepository.todays()
+  getStatistics(): Promise<any[]> {
+    return this.listenersrepository.getStatistics()
   }
-
-  weeks() {
-    return this.listenersrepository.weeks()
-  }
-
-  months() {
-    return this.listenersrepository.months()
-  }
-
+ 
 }
