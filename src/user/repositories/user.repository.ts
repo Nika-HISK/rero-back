@@ -30,7 +30,7 @@ export class UserRepository {
     return this.userRepo.findOneBy({ id });
   }
 
-  async banUser(id: number) {
+  async banUser(id: number) { 
     const user = await this.userRepo.findOneBy({id})
     if (!user) {
       throw new NotFoundException('User not found');
@@ -39,7 +39,7 @@ export class UserRepository {
     return this.userRepo.save(user);
   }
 
-  async unbanUser(id: number) {
+  async unbanUser(id: number) { 
     const user = await this.userRepo.findOneBy({id});
     if (!user) {
       throw new NotFoundException('User not found');

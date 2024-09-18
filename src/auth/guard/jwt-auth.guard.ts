@@ -46,10 +46,10 @@ export class AuthGuard implements CanActivate {
       });
       const requiredRoles = this.getRequiredRoles(context);
 
-      const user = await this.userRepository.findOne(payload.sub)
+      const user = await this.userRepository.findOne(payload.sub) 
        
 
-      if(user.banned) {
+      if(user.banned) { 
         
         throw new  UnauthorizedException()
       }      

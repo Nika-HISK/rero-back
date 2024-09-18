@@ -23,7 +23,7 @@ export class User {
   password: string;
 
   @Column({default:false})
-  banned:boolean
+  banned:boolean 
 
   @Column({
     type: 'enum',
