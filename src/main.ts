@@ -13,7 +13,7 @@ async function bootstrap() {
 
     origin: 'https://reroapp.ge',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: false,
+    credentials: true,
   });
   await app.listen(3000);
 }
