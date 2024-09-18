@@ -17,16 +17,18 @@ export class ArtistRepository {
         const sql = this.artistRepo.createQueryBuilder('artist')
             .leftJoinAndSelect('artist.albums', 'album')
             .leftJoinAndSelect('album.musics', 'albumHits') 
-            .leftJoinAndSelect('artist.musics', 'music');    
-    
+            .leftJoinAndSelect('artist.musics', 'music')
+            .leftJoinAndSelect('music.artist', 'musicArtist') 
+            .leftJoinAndSelect('music.album', 'musicAlbum') 
+
         if (search) {
             sql.where('artist.artistName LIKE :search', { search: `%${search}%` });
         }
     
         const artists = await sql.getMany();
-        return artists
-
+        return artists;
     }
+    
     async findOne(id: number) {
         const artist = await this.artistRepo.createQueryBuilder('artist')
             .leftJoinAndSelect('artist.albums', 'album')
