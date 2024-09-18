@@ -30,9 +30,6 @@ export class Album {
   @Column()
   artistId: number;
 
-  @Column()
-  musicId: number;
-
   @ManyToOne(() => Artist, (artist) => artist.albums)
   artist: Artist;
 

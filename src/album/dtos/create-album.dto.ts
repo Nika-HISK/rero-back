@@ -10,10 +10,6 @@ export class CreateAlbumDto {
   @IsNumber()
   artistId: number;
 
-  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
-  @IsNumber()
-  musicId: number;
-
   @IsOptional()
   @IsString()
   releaseDate?: string;
