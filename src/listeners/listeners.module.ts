@@ -9,5 +9,6 @@ import { ListenersRepository } from './repositories/listeners.repository';
   imports:[TypeOrmModule.forFeature([Listener])],
   controllers: [ListenersController],
   providers: [ListenersService, ListenersRepository],
+  exports:[ListenersRepository]
 })
 export class ListenersModule {}
