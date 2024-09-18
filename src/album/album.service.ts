@@ -39,7 +39,7 @@ export class AlbumService {
     return {
       id: album.id,
       name: album.name,
-      albumCover:album.albumCover,
+      cover:album.cover,
       releaseDate: album.releaseDate,
       musics: album.musics,
       artist: album.artist,
