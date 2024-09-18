@@ -38,7 +38,7 @@ export class AlbumRepository {
   }
 
   delete(id: number) {
-    return this.albumRepo.delete(id);
+    return this.albumRepo.softDelete(id);
   }
 
   create(data: CreateAlbumDto) {

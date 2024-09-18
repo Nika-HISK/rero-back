@@ -2,6 +2,7 @@ import { Music } from 'src/music/entities/music.entity';
 import { Artist } from 'src/artist/entities/artist.entity';
 import {
   Column,
+  DeleteDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -31,4 +32,7 @@ export class Album {
 
   @ManyToOne(() => Artist, (artist) => artist.albums)
   artist: Artist;
+
+  @DeleteDateColumn()
+  deletedAt:Date
 }
