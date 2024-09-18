@@ -2,12 +2,12 @@ import {
   Column,
   Entity,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Playlist } from 'src/playlist/entities/playlist.entity';
 import { Listener } from 'src/listeners/entities/listener.entity';
-import { IsEnum } from 'class-validator';
 import { Role } from 'src/auth/guard/enum/role.enum';
 
 
@@ -35,6 +35,8 @@ export class User {
   @OneToMany(() => Listener, (listener) => listener.user)
   listeners: Listener[];
 
-  @ManyToMany(() => Playlist, (playlist) => playlist.users)
+  @OneToMany(() => Playlist, (playlist) => playlist.user)
   playlists: Playlist[];
+  
+  
 }

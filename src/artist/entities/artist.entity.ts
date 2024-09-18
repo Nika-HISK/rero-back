@@ -1,6 +1,6 @@
 import { Album } from "src/album/entities/album.entity";
 import { Music } from "src/music/entities/music.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Artist {
@@ -22,4 +22,7 @@ export class Artist {
 
     @OneToMany(() => Album, (album) => album.artist)
     albums: Album[]
+
+    @DeleteDateColumn()
+    deletedAt:Date
 }

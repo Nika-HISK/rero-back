@@ -43,6 +43,7 @@ export class AlbumService {
       releaseDate: album.releaseDate,
       musics: album.musics,
       artist: album.artist,
+      albumCover:album.albumCover
     };
   }
 

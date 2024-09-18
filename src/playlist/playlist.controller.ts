@@ -44,9 +44,12 @@ export class PlaylistController {
     return this.playlistService.update(Number(id), updatePlaylistDto);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.USER,Role.ADMIN)
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.playlistService.delete(Number(id));
   }
 }
+
+
+

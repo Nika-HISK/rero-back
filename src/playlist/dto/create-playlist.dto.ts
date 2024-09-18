@@ -4,7 +4,7 @@ import { CreateMusicDto } from 'src/music/dtos/create-music.dto';
 
 export class CreatePlaylistDto {
   @IsString()
-  name: string;
+  playlistName: string;
 
   @ValidateNested({ each: true })
   @Type(() => CreateMusicDto)

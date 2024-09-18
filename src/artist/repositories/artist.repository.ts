@@ -51,7 +51,7 @@ export class ArtistRepository {
     }
 
     delete(id: number) {
-        return this.artistRepo.delete(id)
+        return this.artistRepo.softDelete(id)
     }
    
 }
