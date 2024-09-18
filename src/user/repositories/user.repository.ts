@@ -26,23 +26,9 @@ export class UserRepository {
   findAll() {
     return this.userRepo.find()
   }
-
   findOne(id: number) {
     return this.userRepo.findOneBy({ id });
   }
-
-  async findOneByEmail(email: string) {
-    return this.userRepo.findOneBy({ email });
-  }
-
-  update(id: number, data: UpdateUserDto) {
-    return this.userRepo.update(id, data);
-  }
-
-  delete(id: number) {
-    return this.userRepo.delete(id);
-  }
-
 
   async banUser(id: number) {
     const user = await this.userRepo.findOneBy({id})
@@ -60,5 +46,17 @@ export class UserRepository {
     }
     user.banned = false;
     return this.userRepo.save(user);
+  }
+
+  async findOneByEmail(email: string) {
+    return this.userRepo.findOneBy({ email });
+  }
+
+  update(id: number, data: UpdateUserDto) {
+    return this.userRepo.update(id, data);
+  }
+
+  delete(id: number) {
+    return this.userRepo.delete(id);
   }
 }

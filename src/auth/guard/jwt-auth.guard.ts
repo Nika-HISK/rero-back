@@ -4,6 +4,7 @@ import {
   ExecutionContext,
   UnauthorizedException,
   ForbiddenException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
@@ -32,8 +33,12 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+    
+
     if (!token) {
       throw new UnauthorizedException();
+
+
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
@@ -41,7 +46,15 @@ export class AuthGuard implements CanActivate {
       });
       const requiredRoles = this.getRequiredRoles(context);
 
+      const user = await this.userRepository.findOne(payload.sub)
+       
 
+      if(user.banned) {
+        
+        throw new  UnauthorizedException()
+      }      
+    
+      
       if (requiredRoles.length) {
         return requiredRoles.some((role) => payload.role === role);      }
     } catch {
