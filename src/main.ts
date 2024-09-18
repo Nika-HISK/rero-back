@@ -10,11 +10,11 @@ async function bootstrap() {
     transform: true
   }))
   app.enableCors({
+
     origin: 'reroapp.ge',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: false,  
+    credentials: false,
   });
-  
   await app.listen(3000);
 }
 bootstrap();
