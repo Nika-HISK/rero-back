@@ -24,7 +24,8 @@ export class MusicRepository {
   async findAll(search?: string): Promise<Music[]> {
     const query = this.musicRepository
       .createQueryBuilder('music')
-      .leftJoinAndSelect('music.artist', 'artist');
+      .leftJoinAndSelect('music.artist', 'artist')
+      .leftJoinAndSelect('music.album', 'album')
 
     if (search) {
       query.where('music.name LIKE :search', { search: `%${search}%` });
