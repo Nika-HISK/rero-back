@@ -10,9 +10,9 @@ async function bootstrap() {
     transform: true
   }))
   app.enableCors({
-    origin: ['https://reroapp.ge', 'http://localhost:3000'],
+    origin: 'reroapp.ge',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,  
+    credentials: false,  
   });
   
   await app.listen(3000);
