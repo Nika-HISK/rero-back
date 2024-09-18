@@ -11,7 +11,7 @@ async function bootstrap() {
   }))
   app.enableCors({
 
-    origin: 'reroapp.ge',
+    origin: 'https://reroapp.ge',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: false,
   });
