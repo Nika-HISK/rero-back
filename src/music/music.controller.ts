@@ -6,6 +6,7 @@ import { CreateMusicDto } from './dtos/create-music.dto';
 import { UpdateMusicDto } from './dtos/update-music.dto';
 import { Role } from 'src/auth/guard/enum/role.enum';
 import { Roles } from 'src/auth/guard/jwt-roles.guard';
+import { Music } from './entities/music.entity';
 
 @Controller('music')
 export class MusicController {
@@ -72,9 +73,10 @@ export class MusicController {
 
   @Roles(Role.USER, Role.ADMIN)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.musicService.findOne(Number(id));
+  async findOne(@Param('id') id: number): Promise<Music | null> {
+    return this.musicService.findOne(id);
   }
+
 
   @Roles(Role.ADMIN)
   @Put(':id')
@@ -87,4 +89,12 @@ export class MusicController {
   remove(@Param('id') id: string) {
     return this.musicService.remove(Number(id));
   }
+
+  @Roles(Role.USER,Role.ADMIN)
+  @Get('most-viewed')
+  async getMostViewedMusic(): Promise<any[]> {
+    return this.musicService.getMostViewedMusic();
+  }
+
+
 }

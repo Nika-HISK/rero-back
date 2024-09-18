@@ -25,6 +25,7 @@ export class MusicService {
   }
 
   async findOne(id: number): Promise<Music | null> {
+    await this.listenersRepository.addListener(id);
     return this.musicRepository.findOne(id);
   }
 
@@ -40,6 +41,10 @@ export class MusicService {
     createMusicDto: CreateMusicDto,
   ): Promise<Music | null> {
     return this.musicRepository.findByProperties(createMusicDto);
+  }
+
+  async getMostViewedMusic(): Promise<any[]> {
+    return this.listenersRepository.getStatistics();
   }
 }
 

@@ -14,9 +14,17 @@ export class ListenersRepository {
     return this.listenerRepo
       .createQueryBuilder('listener')
       .select('listener.musicId', 'musicId')
-      .addSelect('COUNT(listener.id)', 'listenCount') 
-      .groupBy('listener.musicId') 
-      .orderBy('listenCount', 'DESC') 
-      .getRawMany(); 
+      .addSelect('COUNT(listener.id)', 'listenCount')
+      .groupBy('listener.musicId')
+      .orderBy('listenCount', 'DESC')
+      .getRawMany();
+  }
+
+  async addListener(musicId: number): Promise<void> {
+    const listener = new Listener();
+    listener.musicId = musicId; 
+    await this.listenerRepo.save(listener);
   }
 }
+
+
