@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, createQueryBuilder } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -23,9 +23,15 @@ export class UserRepository {
     return this.userRepo.save(newUser);
   }
 
-  findAll() {
-    return this.userRepo.find();
+  async findAll() {
+    const query = this.userRepo
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.playlists', 'playlist')
+      .leftJoinAndSelect('playlist.musics', 'music');  
+  
+    return await query.getMany();
   }
+  
 
   findOne(id: number) {
     return this.userRepo.findOneBy({ id });
