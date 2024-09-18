@@ -2,16 +2,19 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Jwtconstantcs } from './guard/secret';
+import { UserRepository } from 'src/user/repositories/user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly userRepository:UserRepository,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
@@ -35,6 +38,11 @@ export class AuthService {
       throw new HttpException('The email or password you entered is incorrect', HttpStatus.BAD_REQUEST);
     }
     const payload = { sub: user.id, email: user.email, role: user.role};
+
+    if(user.banned) { 
+      
+      throw new  UnauthorizedException()
+    }     
     return {
       accessToken: await this.jwtService.signAsync(payload, Jwtconstantcs),
     };

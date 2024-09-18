@@ -30,4 +30,13 @@ export class UserService {
   delete(id: number) {
     return this.userRepo.delete(id);
   }
+
+  banUser(id:number) {
+    return this.userRepo.banUser(id)
+  }
+
+  unbunUser(id:number) {
+    return this.userRepo.unbanUser(id)
+  }
+
 }

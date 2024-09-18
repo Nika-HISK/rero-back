@@ -11,5 +11,5 @@ export class UpdateAlbumDto {
 
   @IsOptional()
   @IsString()
-  albumCover?: string;
+  cover?: string;
 }

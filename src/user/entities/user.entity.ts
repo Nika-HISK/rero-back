@@ -22,6 +22,9 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
+  @Column({default:false})
+  banned:boolean 
+
   @Column({
     type: 'enum',
     enum: Role,

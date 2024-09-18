@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, createQueryBuilder } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -32,9 +32,26 @@ export class UserRepository {
     return await query.getMany();
   }
   
-
   findOne(id: number) {
     return this.userRepo.findOneBy({ id });
+  }
+
+  async banUser(id: number) { 
+    const user = await this.userRepo.findOneBy({id})
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    user.banned = true;
+    return this.userRepo.save(user);
+  }
+
+  async unbanUser(id: number) { 
+    const user = await this.userRepo.findOneBy({id});
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    user.banned = false;
+    return this.userRepo.save(user);
   }
 
   async findOneByEmail(email: string) {

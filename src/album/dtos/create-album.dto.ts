@@ -16,7 +16,7 @@ export class CreateAlbumDto {
 
   @IsOptional()
   @IsString()
-  albumCover?: string;
+  cover?: string;
 
   @ValidateNested({ each: true })
   @Type(() => CreateMusicDto)

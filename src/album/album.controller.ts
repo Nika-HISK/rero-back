@@ -26,15 +26,15 @@ import {
   
     @Roles(Role.ADMIN)
     @Post()
-    @UseInterceptors(FileInterceptor('albumCover'))
+    @UseInterceptors(FileInterceptor('cover'))
     async create(
-      @UploadedFile() albumCover: Express.Multer.File,
+      @UploadedFile() cover: Express.Multer.File,
       @Body() createAlbumDto: CreateAlbumDto,
     ) {
-      if (albumCover) {
+      if (cover) {
       
-        const uploadedCover = await this.filesService.uploadFile(albumCover);
-        createAlbumDto.albumCover = uploadedCover.url;
+        const uploadedCover = await this.filesService.uploadFile(cover);
+        createAlbumDto.cover = uploadedCover.url;
       }
       return this.albumService.create(createAlbumDto);
     }
@@ -53,15 +53,15 @@ import {
   
     @Roles(Role.ADMIN)
     @Put(':id')
-    @UseInterceptors(FileInterceptor('albumCover'))
+    @UseInterceptors(FileInterceptor('cover'))
     async update(
       @Param('id') id: string,
-      @UploadedFile() albumCover: Express.Multer.File,
+      @UploadedFile() cover: Express.Multer.File,
       @Body() updateAlbumDto: UpdateAlbumDto
     ) {
-      if (albumCover) {
-        const uploadedCover = await this.filesService.uploadFile(albumCover);
-        updateAlbumDto.albumCover = uploadedCover.url;
+      if (cover) {
+        const uploadedCover = await this.filesService.uploadFile(cover);
+        updateAlbumDto.cover = uploadedCover.url;
       }
       return this.albumService.update(Number(id), updateAlbumDto);
     }

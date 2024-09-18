@@ -28,6 +28,7 @@ export class ArtistRepository {
         const artists = await sql.getMany();
         return artists;
     }
+    
     async findOne(id: number) {
         const artist = await this.artistRepo.createQueryBuilder('artist')
             .leftJoinAndSelect('artist.albums', 'album')
