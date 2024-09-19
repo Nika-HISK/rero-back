@@ -11,26 +11,54 @@ export class ListenersRepository {
   ) {}
 
   async getStatistics(): Promise<any[]> {
-    return this.listenerRepo
+    const rawData = await this.listenerRepo
       .createQueryBuilder('listener')
       .select('listener.musicId', 'musicId')
       .addSelect('COUNT(listener.id)', 'listenCount')
-      .addSelect('music.name', 'name')
+      .addSelect('music.id', 'musicId')
+      .addSelect('music.name', 'musicName')
       .addSelect('music.musicAudio', 'musicAudio')
-      .addSelect('music.coverImage', 'coverImage')
-      .addSelect('music.duration', 'duration')
-      .addSelect('music.albumId', 'albumId')
-      .addSelect('music.artistId', 'artistId')
+      .addSelect('music.coverImage', 'musicCoverImage')
+      .addSelect('music.duration', 'musicDuration')
+      .addSelect('album.id', 'albumId')
+      .addSelect('album.name', 'albumName')
+      .addSelect('album.releaseDate', 'albumReleaseDate')
+      .addSelect('album.cover', 'albumCover')
+      .addSelect('artist.id', 'artistId')
       .addSelect('artist.artistName', 'artistName')
       .addSelect('artist.artistPhoto', 'artistPhoto')
       .addSelect('artist.biography', 'artistBiography')
-      .addSelect('album.name', 'albumName')
       .leftJoin('listener.music', 'music')
       .leftJoin('music.artist', 'artist')
       .leftJoin('music.album', 'album')
       .groupBy('listener.musicId')
       .orderBy('listenCount', 'DESC')
       .getRawMany();
+  
+    return rawData.map(row => ({
+      id: row.musicId,
+      name: row.musicName,
+      musicAudio: row.musicAudio,
+      coverImage: row.musicCoverImage,
+      duration: row.musicDuration,
+      albumId: row.albumId,
+      artistId: row.artistId,
+      artist: {
+        id: row.artistId,
+        artistName: row.artistName,
+        artistPhoto: row.artistPhoto,
+        biography: row.artistBiography,
+        deletedAt: null, 
+      },
+      album: row.albumId ? {
+        id: row.albumId,
+        name: row.albumName,
+        releaseDate: row.albumReleaseDate,
+        cover: row.albumCover,
+        artistId: row.artistId,
+        deletedAt: null, 
+      } : null
+    }));
   }
   
 
