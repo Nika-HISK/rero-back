@@ -13,8 +13,6 @@ export class Listener {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  userId:number
 
   @Column()
   musicId:number
@@ -22,8 +20,7 @@ export class Listener {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.listeners)
-  user: User;
+
 
   @ManyToOne(() => Music, (music) => music.listeners)
   music: Music;
