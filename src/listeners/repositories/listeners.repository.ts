@@ -24,8 +24,10 @@ export class ListenersRepository {
       .addSelect('artist.artistName', 'artistName')
       .addSelect('artist.artistPhoto', 'artistPhoto')
       .addSelect('artist.biography', 'artistBiography')
+      .addSelect('album.name', 'albumName')
       .leftJoin('listener.music', 'music')
       .leftJoin('music.artist', 'artist')
+      .leftJoin('music.album', 'album')
       .groupBy('listener.musicId')
       .orderBy('listenCount', 'DESC')
       .getRawMany();
