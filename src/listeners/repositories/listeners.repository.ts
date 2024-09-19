@@ -15,6 +15,8 @@ export class ListenersRepository {
       .createQueryBuilder('listener')
       .select('listener.musicId', 'musicId')
       .addSelect('COUNT(listener.id)', 'listenCount')
+      .leftJoinAndSelect('listener.music','music')
+      .leftJoinAndSelect('music.artist', 'artist')
       .groupBy('listener.musicId')
       .orderBy('listenCount', 'DESC')
       .getRawMany();
