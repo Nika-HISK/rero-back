@@ -15,12 +15,22 @@ export class ListenersRepository {
       .createQueryBuilder('listener')
       .select('listener.musicId', 'musicId')
       .addSelect('COUNT(listener.id)', 'listenCount')
-      .leftJoinAndSelect('listener.music','music')
-      .leftJoinAndSelect('music.artist', 'artist')
+      .addSelect('music.name', 'name')
+      .addSelect('music.musicAudio', 'musicAudio')
+      .addSelect('music.coverImage', 'coverImage')
+      .addSelect('music.duration', 'duration')
+      .addSelect('music.albumId', 'albumId')
+      .addSelect('music.artistId', 'artistId')
+      .addSelect('artist.artistName', 'artistName')
+      .addSelect('artist.artistPhoto', 'artistPhoto')
+      .addSelect('artist.biography', 'artistBiography')
+      .leftJoin('listener.music', 'music')
+      .leftJoin('music.artist', 'artist')
       .groupBy('listener.musicId')
       .orderBy('listenCount', 'DESC')
       .getRawMany();
   }
+  
 
   async addListener(musicId: number): Promise<void> {
     const listener = new Listener();
