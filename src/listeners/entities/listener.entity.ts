@@ -20,8 +20,6 @@ export class Listener {
   @CreateDateColumn()
   createdAt: Date;
 
-
-
   @ManyToOne(() => Music, (music) => music.listeners)
   music: Music;
 }

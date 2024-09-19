@@ -32,7 +32,6 @@ export class User {
   })
   role: Role;
 
-
   @OneToMany(() => Playlist, (playlist) => playlist.user)
   playlists: Playlist[];
   

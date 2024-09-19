@@ -14,9 +14,31 @@ export class ListenersRepository {
     return this.listenerRepo
       .createQueryBuilder('listener')
       .select('listener.musicId', 'musicId')
-      .addSelect('COUNT(listener.id)', 'listenCount') 
-      .groupBy('listener.musicId') 
-      .orderBy('listenCount', 'DESC') 
-      .getRawMany(); 
+      .addSelect('COUNT(listener.id)', 'listenCount')
+      .addSelect('music.name', 'name')
+      .addSelect('music.musicAudio', 'musicAudio')
+      .addSelect('music.coverImage', 'coverImage')
+      .addSelect('music.duration', 'duration')
+      .addSelect('music.albumId', 'albumId')
+      .addSelect('music.artistId', 'artistId')
+      .addSelect('artist.artistName', 'artistName')
+      .addSelect('artist.artistPhoto', 'artistPhoto')
+      .addSelect('artist.biography', 'artistBiography')
+      .addSelect('album.name', 'albumName')
+      .leftJoin('listener.music', 'music')
+      .leftJoin('music.artist', 'artist')
+      .leftJoin('music.album', 'album')
+      .groupBy('listener.musicId')
+      .orderBy('listenCount', 'DESC')
+      .getRawMany();
+  }
+  
+
+  async addListener(musicId: number): Promise<void> {
+    const listener = new Listener();
+    listener.musicId = musicId; 
+    await this.listenerRepo.save(listener);
   }
 }
+
+

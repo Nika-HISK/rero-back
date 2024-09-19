@@ -3,10 +3,11 @@ import { MusicRepository } from './repositories/music.repository';
 import { CreateMusicDto } from './dtos/create-music.dto';
 import { Music } from './entities/music.entity';
 import { UpdateMusicDto } from './dtos/update-music.dto';
+import { ListenersRepository } from 'src/listeners/repositories/listeners.repository';
 
 @Injectable()
 export class MusicService {
-  constructor(private readonly musicRepository: MusicRepository) {}
+  constructor(private readonly musicRepository: MusicRepository, private readonly listenersRepository:ListenersRepository) {}
 
   async create(
     createMusicDto: CreateMusicDto,
@@ -24,6 +25,7 @@ export class MusicService {
   }
 
   async findOne(id: number): Promise<Music | null> {
+    await this.listenersRepository.addListener(id);
     return this.musicRepository.findOne(id);
   }
 
@@ -39,6 +41,10 @@ export class MusicService {
     createMusicDto: CreateMusicDto,
   ): Promise<Music | null> {
     return this.musicRepository.findByProperties(createMusicDto);
+  }
+
+  async getMostViewedMusic(): Promise<any[]> {
+    return this.listenersRepository.getStatistics();
   }
 }
 
