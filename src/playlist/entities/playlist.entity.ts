@@ -38,6 +38,6 @@ export class Playlist {
   @DeleteDateColumn({nullable:false})
   deletedAt: Date;
 
-  @Column()
-  musicId:number
+  // @Column()
+  // musicId:number
 }

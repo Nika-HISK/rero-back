@@ -61,4 +61,8 @@ export class PlaylistService {
     return this.playlistRepository.addMusic(id, musicId)
   }
 
+  async deleteMusic(id:number, musicId:number) {
+      return this.playlistRepository.deleteMusic(id, musicId)
+  }
+
 }

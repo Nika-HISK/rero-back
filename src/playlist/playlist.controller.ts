@@ -52,14 +52,18 @@ export class PlaylistController {
   }
 
 
-
+  @Roles(Role.USER,Role.ADMIN)
   @Post(':id/add/:musicId')
   async addMusic(@Param('id') id: number, @Param('musicId') musicId: number) {
-
+    return this.playlistService.addMusic(id, musicId)
   }
 
+  @Roles(Role.USER,Role.ADMIN)
+  @Delete(':id/add/:musicId')
+  async deleteMusic(@Param('id') id: number, @Param('musicId') musicId: number) {
+    return this.playlistService.deleteMusic(id, musicId)
+  }
 
-  // @Patch(':id/remove/:musicId')
 }
 
 
