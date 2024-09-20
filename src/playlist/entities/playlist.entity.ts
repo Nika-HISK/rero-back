@@ -37,4 +37,5 @@ export class Playlist {
 
   @DeleteDateColumn({nullable:false})
   deletedAt: Date;
+
 }
