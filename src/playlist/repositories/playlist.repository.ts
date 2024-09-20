@@ -66,28 +66,23 @@ export class PlaylistRepository {
 
   }
 
-
-  async deleteMusic (id:number, musicId:number) {
-    // const playlist = await this.playlistRepository.findOne({where :{id}, relations: ['musics']})
-    // const music = await this.musicrepository.findOne(musicId)
-    // if(playlist && music) {
-    //   let updatedPlaylist = playlist.musics.filter(m => m.id !== musicId);
-    //   return this.playlistRepository.save(updatedPlaylist);
-    // }
-
-    // const specificPlaylist = await this.playlistRepository.findOne({where: {id: id}});
-    // const specificMusic = await this.playlistRepository.find({where: {id: id}});
-    // if(specificPlaylist) {
-    //   if(specificMusic) {
-        
-    //   }
-    //   throw new Error('Music could not be found');
-
-    // }
-    // else {
-    //   throw new Error('Playlist could not be found');
-    // }
+  async deleteMusic(id: number, musicId: number) {
+    const playlist = await this.playlistRepository.findOne({
+      where: { id },
+      relations: ['musics'],
+    });
+  
+      const music = await this.musicrepository.findOne(musicId);
+  
+    if (playlist && music) {
+      playlist.musics = playlist.musics.filter(m => m.id !== musicId);
+  
+      return this.playlistRepository.save(playlist);
+    }
+  
+    throw new Error('Playlist or Music not found');
   }
+  
   
 
   async update(
