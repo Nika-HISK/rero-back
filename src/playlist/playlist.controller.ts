@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Put,
+  Patch,
 } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
@@ -49,6 +50,16 @@ export class PlaylistController {
   delete(@Param('id') id: string) {
     return this.playlistService.delete(Number(id));
   }
+
+
+
+  @Post(':id/add/:musicId')
+  async addMusic(@Param('id') id: number, @Param('musicId') musicId: number) {
+
+  }
+
+
+  // @Patch(':id/remove/:musicId')
 }
 
 

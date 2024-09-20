@@ -5,13 +5,16 @@ import { Playlist } from '../entities/playlist.entity';
 import { CreatePlaylistDto } from '../dto/create-playlist.dto';
 import { UpdatePlaylistDto } from '../dto/update-playlist.dto';
 import { Music } from 'src/music/entities/music.entity';
+import { MusicRepository } from 'src/music/repositories/music.repository';
 
 @Injectable()
 export class PlaylistRepository {
   constructor(
     @InjectRepository(Playlist)
     private readonly playlistRepository: Repository<Playlist>,
-  ) {}
+    private readonly musicrepository: MusicRepository,
+
+    ) {}
 
   async createPlaylist(
     createPlaylistDto: CreatePlaylistDto,
@@ -24,12 +27,20 @@ export class PlaylistRepository {
     return await this.playlistRepository.save(newPlaylist);
   }
 
+
+
   async findAll(): Promise<Playlist[]> {
     return await this.playlistRepository.createQueryBuilder('playlist')
     .leftJoinAndSelect('playlist.musics', 'music')
     .leftJoinAndSelect('music.artist', 'artist')
     .getMany()
+  }
 
+  async addMusic (id:number, musicId:number) {
+    let playlist = await this.playlistRepository.findOneBy({id})
+
+    console.log(playlist);
+    
   }
 
   async findOne(id: number): Promise<Playlist> {
