@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './repositories/user.repository';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -37,6 +38,16 @@ export class UserService {
 
   unbunUser(id:number) {
     return this.userRepo.unbanUser(id)
+  }
+
+  async changePassword(id: number, password: string) {
+    const user = await this.userRepo.findOne(id);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+  
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return this.userRepo.update(id, { password: hashedPassword });
   }
 
 }

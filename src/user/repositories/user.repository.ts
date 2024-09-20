@@ -27,17 +27,17 @@ export class UserRepository {
     const query = this.userRepo
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.playlists', 'playlist')
-      .leftJoinAndSelect('playlist.musics', 'music');  
-  
+      .leftJoinAndSelect('playlist.musics', 'music');
+
     return await query.getMany();
   }
-  
+
   findOne(id: number) {
     return this.userRepo.findOneBy({ id });
   }
 
-  async banUser(id: number) { 
-    const user = await this.userRepo.findOneBy({id})
+  async banUser(id: number) {
+    const user = await this.userRepo.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -45,8 +45,8 @@ export class UserRepository {
     return this.userRepo.save(user);
   }
 
-  async unbanUser(id: number) { 
-    const user = await this.userRepo.findOneBy({id});
+  async unbanUser(id: number) {
+    const user = await this.userRepo.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -56,6 +56,17 @@ export class UserRepository {
 
   async findOneByEmail(email: string) {
     return this.userRepo.findOneBy({ email });
+  }
+
+  async updatePassword(id: number, newPassword: string) {
+    const user = await this.userRepo.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+
+    return this.userRepo.save(user);
   }
 
   update(id: number, data: UpdateUserDto) {
