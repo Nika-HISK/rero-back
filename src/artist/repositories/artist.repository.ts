@@ -19,15 +19,25 @@ export class ArtistRepository {
             .leftJoinAndSelect('album.musics', 'albumHits') 
             .leftJoinAndSelect('artist.musics', 'music')
             .leftJoinAndSelect('music.artist', 'musicArtist') 
-            .leftJoinAndSelect('music.album', 'musicAlbum') 
-
+            .leftJoinAndSelect('music.album', 'musicAlbum'); 
+    
         if (search) {
             sql.where('artist.artistName LIKE :search', { search: `%${search}%` });
         }
     
         const artists = await sql.getMany();
-        return artists;
+    
+        return artists.map(artist => {
+            artist.musics.map(music => {
+                const album = music.album as any; 
+                if (album) {
+                    album.artistName = artist.artistName; 
+                }
+            });
+            return artist;
+        });
     }
+    
     
     async findOne(id: number) {
         const artist = await this.artistRepo.createQueryBuilder('artist')
