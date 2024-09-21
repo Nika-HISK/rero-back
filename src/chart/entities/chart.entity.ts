@@ -48,8 +48,9 @@ export class Chart {
     @OneToMany(() => Topchart, (topchart) => topchart.chart)
     topchart: Topchart[];
   
+  
     @OneToMany(() => Topchart, (topchart) => topchart.chart)
-    topcharts: Topchart[];
+    topcharts: Topchart[]; 
 
     
 }

@@ -18,13 +18,12 @@ export class TopchartsRepostitory {
   async getStatistics(): Promise<any[]> {
     const rawData = await this.topChartRepo
       .createQueryBuilder('topchart')
-      .select('topchart.musicId', 'musicId')
+      .select('chart.id', 'musicId') 
       .addSelect('COUNT(topchart.id)', 'topchartCount')
-      .addSelect('music.id', 'musicId')
-      .addSelect('music.name', 'musicName')
-      .addSelect('music.musicAudio', 'musicAudio')
-      .addSelect('music.coverImage', 'musicCoverImage')
-      .addSelect('music.duration', 'musicDuration')
+      .addSelect('chart.name', 'musicName')
+      .addSelect('chart.musicAudio', 'musicAudio')
+      .addSelect('chart.coverImage', 'musicCoverImage')
+      .addSelect('chart.duration', 'musicDuration')
       .addSelect('album.id', 'albumId')
       .addSelect('album.name', 'albumName')
       .addSelect('album.releaseDate', 'albumReleaseDate')
@@ -34,10 +33,9 @@ export class TopchartsRepostitory {
       .addSelect('artist.artistPhoto', 'artistPhoto')
       .addSelect('artist.biography', 'artistBiography')
       .leftJoin('topchart.chart', 'chart')  
-      .leftJoin('chart.music', 'music')     
       .leftJoin('chart.artist', 'artist')
       .leftJoin('chart.album', 'album')
-      .groupBy('topchart.musicId')
+      .groupBy('chart.id')  
       .orderBy('topchartCount', 'DESC') 
       .getRawMany();
   
@@ -68,14 +66,20 @@ export class TopchartsRepostitory {
   }
   
   
+  
 
   async addListener(chartId: number): Promise<Topchart> {
-    const topchart = new Topchart();
+    const chart = await this.topChartRepo.manager.findOne(Chart, { where: { id: chartId } });
   
-    topchart.chart = new Chart(); 
-    topchart.chart.id = chartId; 
-    
+    if (!chart) {
+      throw new Error(`Chart with id ${chartId} not found`);
+    }
+  
+    const topchart = new Topchart();
+    topchart.chart = chart;  
+  
     return this.topChartRepo.save(topchart);
   }
+  
 
 }

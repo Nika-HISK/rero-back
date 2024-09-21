@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Chart } from "../entities/chart.entity";
 import { Repository } from "typeorm";
@@ -41,12 +41,13 @@ export class ChartRepository {
     
     
       async findOne(id: number): Promise<Chart | null> {
-        await this.topChartRepo.addListener(id)
+        
+       await this.topChartRepo.addListener(id)
+
         return this.chartRepo.findOne({
           where: { id },
           relations: ['artist', 'album'],
-
-        });
+        })
       }
     
       async findByProperties(
@@ -66,7 +67,7 @@ export class ChartRepository {
         await this.chartRepo.update(id, updateChartDto);
         return this.findOne(id);
       }
-    
+      
       async remove(id: number): Promise<void> {
         await this.chartRepo.delete(id);
       }
