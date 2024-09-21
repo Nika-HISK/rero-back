@@ -11,6 +11,8 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Listener } from 'src/listeners/entities/listener.entity';
+import { Chart } from 'src/chart/entities/chart.entity';
+import { Topchart } from 'src/topcharts/entities/topchart.entity';
 
 @Entity()
 export class Music {
@@ -45,6 +47,13 @@ export class Music {
   @OneToMany(() => Listener, (listener) => listener.music)
   listeners: Listener[];
 
+
+
   @ManyToMany(() => Playlist, (playlist) => playlist.musics)
   playlists: Playlist[];
+
+
+
+  // @OneToMany(() => Topchart, (chart) => chart.music)  
+  // charts: Chart[];
 }
