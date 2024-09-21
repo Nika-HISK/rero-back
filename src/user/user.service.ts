@@ -23,8 +23,11 @@ export class UserService {
   async findOneByEmail(email: string) {
     return this.userRepo.findOneByEmail(email);
   }
-
   async changePassword(id: number, password: string) {
+    if (!password) {
+      throw new BadRequestException('Password is required');
+    }
+
     const user = await this.userRepo.findOne(id);
     if (!user) {
       throw new BadRequestException('User not found');
@@ -33,7 +36,6 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(password, 10);
     return this.userRepo.update(id, { password: hashedPassword });
   }
-
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.userRepo.update(id, updateUserDto);
   }
