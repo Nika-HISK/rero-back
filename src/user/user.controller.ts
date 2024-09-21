@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -35,8 +36,14 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
+  @Roles(Role.ADMIN)
+  @Put(':id/change-password')
+  changePassword(@Param('id') id: string, @Body('password') password: string) {
+    return this.userService.changePassword(+id, password);
+  }
+
   @Roles(Role.USER, Role.ADMIN)
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
