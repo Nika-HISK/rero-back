@@ -32,9 +32,21 @@ export class UserRepository {
     return await query.getMany();
   }
   
-  findOne(id: number) {
-    return this.userRepo.findOneBy({ id });
-  }
+  async findOne(id: number) {
+    const query = this.userRepo
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.playlists', 'playlist')
+        .leftJoinAndSelect('playlist.musics', 'music')
+        .where('user.id = :id', { id });
+
+    const user = await query.getOne();
+
+    if (!user) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return user;
+}
 
   async banUser(id: number) { 
     const user = await this.userRepo.findOneBy({id})
