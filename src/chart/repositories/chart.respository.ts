@@ -4,6 +4,7 @@ import { Chart } from "../entities/chart.entity";
 import { Repository } from "typeorm";
 import { CreateChartDto } from "../dto/create-chart.dto";
 import { UpdateChartDto } from "../dto/update-chart.dto";
+import { TopchartsRepostitory } from "src/topcharts/repositories/topcharts.respository";
 
 
 
@@ -11,7 +12,8 @@ import { UpdateChartDto } from "../dto/update-chart.dto";
 export class ChartRepository {
     constructor(
         @InjectRepository(Chart)
-        private readonly chartRepo:Repository<Chart>
+        private readonly chartRepo:Repository<Chart>,
+        private readonly topChartRepo:TopchartsRepostitory
     ) {}
 
     async create(data: CreateChartDto, duration?: string): Promise<Chart> {
@@ -39,9 +41,11 @@ export class ChartRepository {
     
     
       async findOne(id: number): Promise<Chart | null> {
+        await this.topChartRepo.addListener(id)
         return this.chartRepo.findOne({
           where: { id },
-          relations: ['artist'],
+          relations: ['artist', 'album'],
+
         });
       }
     

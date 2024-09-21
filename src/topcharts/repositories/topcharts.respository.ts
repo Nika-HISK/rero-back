@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Chart } from "src/chart/entities/chart.entity";
 import { Repository } from "typeorm";
+import { Topchart } from "../entities/topchart.entity";
 
 
 
@@ -10,15 +11,15 @@ import { Repository } from "typeorm";
 export class TopchartsRepostitory {
 
   constructor(
-    @InjectRepository(Chart)
-    private readonly chartRepo: Repository<Chart>,
+    @InjectRepository(Topchart)
+    private readonly topChartRepo: Repository<Topchart>,
   ) {}
 
   async getStatistics(): Promise<any[]> {
-    const rawData = await this.chartRepo
-      .createQueryBuilder('listener')
-      .select('listener.musicId', 'musicId')
-      .addSelect('COUNT(listener.id)', 'listenCount')
+    const rawData = await this.topChartRepo
+      .createQueryBuilder('topchart')
+      .select('topchart.musicId', 'musicId')
+      .addSelect('COUNT(topchart.id)', 'topchartCount')
       .addSelect('music.id', 'musicId')
       .addSelect('music.name', 'musicName')
       .addSelect('music.musicAudio', 'musicAudio')
@@ -32,11 +33,12 @@ export class TopchartsRepostitory {
       .addSelect('artist.artistName', 'artistName')
       .addSelect('artist.artistPhoto', 'artistPhoto')
       .addSelect('artist.biography', 'artistBiography')
-      .leftJoin('listener.music', 'music')
-      .leftJoin('music.artist', 'artist')
-      .leftJoin('music.album', 'album')
-      .groupBy('listener.musicId')
-      .orderBy('listenCount', 'DESC')
+      .leftJoin('topchart.chart', 'chart')  
+      .leftJoin('chart.music', 'music')     
+      .leftJoin('chart.artist', 'artist')
+      .leftJoin('chart.album', 'album')
+      .groupBy('topchart.musicId')
+      .orderBy('topchartCount', 'DESC') 
       .getRawMany();
   
     return rawData.map(row => ({
@@ -65,10 +67,15 @@ export class TopchartsRepostitory {
     }));
   }
   
+  
 
-//   async addListener(musicId: number): Promise<void> {
-//     const chart = new Chart();
-//     chart.musicId = musicId; 
-//     await this.chartRepo.save(chart);
-//   }
+  async addListener(chartId: number): Promise<Topchart> {
+    const topchart = new Topchart();
+  
+    topchart.chart = new Chart(); 
+    topchart.chart.id = chartId; 
+    
+    return this.topChartRepo.save(topchart);
+  }
+
 }

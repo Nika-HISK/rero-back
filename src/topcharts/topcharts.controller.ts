@@ -2,33 +2,17 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TopchartsService } from './topcharts.service';
 import { CreateTopchartDto } from './dto/create-topchart.dto';
 import { UpdateTopchartDto } from './dto/update-topchart.dto';
+import { Roles } from 'src/auth/guard/jwt-roles.guard';
+import { Role } from 'src/auth/guard/enum/role.enum';
 
 @Controller('topcharts')
 export class TopchartsController {
   constructor(private readonly topchartsService: TopchartsService) {}
 
-  @Post()
-  create(@Body() createTopchartDto: CreateTopchartDto) {
-    return this.topchartsService.create(createTopchartDto);
-  }
-
+  @Roles(Role.USER, Role.ADMIN)
   @Get()
-  findAll() {
-    return this.topchartsService.findAll();
+  topCharts() {
+    return this.topchartsService.topCharts()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.topchartsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTopchartDto: UpdateTopchartDto) {
-    return this.topchartsService.update(+id, updateTopchartDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.topchartsService.remove(+id);
-  }
 }

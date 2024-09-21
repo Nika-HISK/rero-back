@@ -52,8 +52,4 @@ export class Music {
   @ManyToMany(() => Playlist, (playlist) => playlist.musics)
   playlists: Playlist[];
 
-
-
-  // @OneToMany(() => Topchart, (chart) => chart.music)  
-  // charts: Chart[];
 }

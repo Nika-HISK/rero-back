@@ -1,3 +1,4 @@
+import { Chart } from 'src/chart/entities/chart.entity';
 import { Music } from 'src/music/entities/music.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
@@ -22,6 +23,6 @@ export class Topchart {
   @CreateDateColumn()
   createdAt: Date;
 
-//   @ManyToOne(() => Music, (music) => music.charts) 
-//   music: Music;
+  @ManyToOne(() => Chart, (chart) => chart.topcharts)  
+  chart: Chart;
 }

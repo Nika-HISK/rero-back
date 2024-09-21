@@ -12,6 +12,7 @@ import {
   Repository,
 } from 'typeorm';
 import { Listener } from 'src/listeners/entities/listener.entity';
+import { Topchart } from 'src/topcharts/entities/topchart.entity';
 
 @Entity()
 export class Chart {
@@ -37,16 +38,18 @@ export class Chart {
     @Column({ type: 'int' })
     artistId: number;
   
-    @ManyToOne(() => Album, (album) => album.musics)
+    @ManyToOne(() => Album, (album) => album.charts)
     album: Album;
   
-    @ManyToOne(() => Artist, (artist) => artist.musics)
+    @ManyToOne(() => Artist, (artist) => artist.charts)
     @JoinColumn({ name: 'artistId' })
     artist: Artist;
   
-    @OneToMany(() => Listener, (listener) => listener.music)
-    listeners: Listener[];
+    @OneToMany(() => Topchart, (topchart) => topchart.chart)
+    topchart: Topchart[];
   
-    @ManyToMany(() => Playlist, (playlist) => playlist.musics)
-    playlists: Playlist[];
+    @OneToMany(() => Topchart, (topchart) => topchart.chart)
+    topcharts: Topchart[];
+
+    
 }
