@@ -56,13 +56,13 @@ export class UserController {
 
   @Roles(Role.ADMIN)
   @Put('/ban/:id')
-  banUser(@Param('id') id:string) {
-    return this.userService.banUser(Number(id))
+  banUser(@Param('id') id: string) {
+    return this.userService.banUser(Number(id));
   }
 
   @Roles(Role.ADMIN)
   @Put('/unban/:id')
-  unBanUser(@Param('id') id:string) {
-    return this.userService.unbunUser(Number(id))
+  unBanUser(@Param('id') id: string) {
+    return this.userService.unbanUser(Number(id));
   }
 }

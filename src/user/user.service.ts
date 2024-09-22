@@ -48,7 +48,7 @@ export class UserService {
     return this.userRepo.banUser(id);
   }
 
-  unbunUser(id: number) {
+  unbanUser(id: number) {
     return this.userRepo.unbanUser(id);
   }
 }
