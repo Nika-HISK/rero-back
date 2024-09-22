@@ -46,4 +46,11 @@ export class UserController {
   delete(@Param('id') id: string) {
     return this.userService.delete(+id);
   }
+
+  @Roles(Role.ADMIN)
+  @Patch(':id/bann')
+  banUser(@Param('id') id:string) {
+    return this.userService.banUser(Number(id))
+  }
+
 }
