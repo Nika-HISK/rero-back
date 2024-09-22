@@ -16,4 +16,10 @@ export class AuthController {
   async login(@Body() createUserDto: CreateUserDto) {
     return this.authService.login(createUserDto);
   }
+
+  @Public()
+  @Post('login/admin')
+  async loginAdmin(@Body() createUserDto: CreateUserDto) {
+    return this.authService.loginAdmin(createUserDto);
+  }
 }
