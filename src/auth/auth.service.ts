@@ -10,6 +10,7 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Jwtconstantcs } from './guard/secret';
 import { UserRepository } from 'src/user/repositories/user.repository';
+import { Role } from 'src/auth/guard/enum/role.enum'; 
 
 @Injectable()
 export class AuthService {
@@ -43,6 +44,28 @@ export class AuthService {
       
       throw new  UnauthorizedException()
     }     
+    return {
+      accessToken: await this.jwtService.signAsync(payload, Jwtconstantcs),
+    };
+  }
+
+  async loginAdmin(createUserDto: CreateUserDto) {
+    const { email, password } = createUserDto;
+    
+    
+    const user = await this.userService.findOneByEmail(email);
+
+    
+    const isPasswordCorrect = user && (await bcrypt.compare(password, user.password));
+    if (!isPasswordCorrect) {
+      throw new HttpException('The email or password you entered is incorrect', HttpStatus.BAD_REQUEST);
+    }
+
+    if (user.role !== Role.ADMIN) {
+      throw new UnauthorizedException('Access denied. Admins only.');
+    }
+
+    const payload = { sub: user.id, email: user.email, role: user.role };
     return {
       accessToken: await this.jwtService.signAsync(payload, Jwtconstantcs),
     };
