@@ -68,5 +68,3 @@ export class ListenersRepository {
     await this.listenerRepo.save(listener);
   }
 }
-
-
