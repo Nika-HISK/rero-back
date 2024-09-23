@@ -3,8 +3,6 @@ import {
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
-  ForbiddenException,
-  NotFoundException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
@@ -14,10 +12,11 @@ import { Role } from './enum/role.enum';
 import { ROLES_KEY } from './jwt-roles.guard';
 import { Jwtconstantcs } from './secret';
 import { UserRepository } from 'src/user/repositories/user.repository';
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private readonly userRepository:UserRepository,
+    private readonly userRepository: UserRepository,
     private jwtService: JwtService,
     private reflector: Reflector,
   ) {}
@@ -33,40 +32,40 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    
 
     if (!token) {
       throw new UnauthorizedException();
-
-
     }
+
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: Jwtconstantcs.secret,
       });
+
+      const user = await this.userRepository.findOne(payload.sub);
+
+      if (!user || user.banned) {
+        throw new UnauthorizedException();
+      }
+
+      request.user = user;
+
       const requiredRoles = this.getRequiredRoles(context);
-
-      const user = await this.userRepository.findOne(payload.sub) 
-       
-
-      if(user.banned) { 
-        
-        throw new  UnauthorizedException()
-      }      
-    
-      
       if (requiredRoles.length) {
-        return requiredRoles.some((role) => payload.role === role);      }
+        return requiredRoles.some((role) => payload.role === role);
+      }
+
+      return true;
     } catch {
       throw new UnauthorizedException();
     }
-    return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
+
   private getRequiredRoles(context: ExecutionContext): Role[] {
     return this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),

@@ -7,6 +7,7 @@ import {
   Delete,
   Put,
   Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
@@ -21,7 +22,12 @@ export class PlaylistController {
   @Roles(Role.USER, Role.ADMIN)
   @Post()
   async create(@Body() createPlaylistDto: CreatePlaylistDto, @Req() req) {
-    const userId = req.user.id;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      throw new UnauthorizedException('User not found');
+    }
+
     return this.playlistService.create(createPlaylistDto, userId);
   }
 
@@ -60,7 +66,10 @@ export class PlaylistController {
 
   @Roles(Role.USER, Role.ADMIN)
   @Delete(':id/add/:musicId')
-  async deleteMusic(@Param('id') id: number, @Param('musicId') musicId: number) {
+  async deleteMusic(
+    @Param('id') id: number,
+    @Param('musicId') musicId: number,
+  ) {
     return this.playlistService.deleteMusic(id, musicId);
   }
 }

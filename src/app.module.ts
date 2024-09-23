@@ -18,6 +18,7 @@ import { Album } from './album/entities/album.entity';
 import { FilesModule } from './files/files.module';
 import { AwsModule } from './aws/aws.module';
 import { FileEntity } from './files/entities/file.entity';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { FileEntity } from './files/entities/file.entity';
     AuthModule,
     FilesModule,
     AwsModule,
+    JwtModule
   ],
   controllers: [AppController],
   providers: [AppService],

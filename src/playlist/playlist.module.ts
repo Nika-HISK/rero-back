@@ -9,16 +9,18 @@ import { AwsModule } from 'src/aws/aws.module';
 import { FilesModule } from 'src/files/files.module';
 import { MusicRepository } from 'src/music/repositories/music.repository';
 import { Music } from 'src/music/entities/music.entity';
+import { User } from 'src/user/entities/user.entity';
+import { UserRepository } from 'src/user/repositories/user.repository';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Playlist, Music]),
+    TypeOrmModule.forFeature([Playlist, Music,User]),
     MusicModule,
     AwsModule,
     FilesModule,
   ],
   controllers: [PlaylistController],
-  providers: [PlaylistService, PlaylistRepository, MusicRepository],
+  providers: [PlaylistService, PlaylistRepository, MusicRepository,UserRepository],
   exports: [PlaylistService],
 })
 export class PlaylistModule {}
