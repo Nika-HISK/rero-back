@@ -9,10 +9,9 @@ import {
   OneToMany,
   ManyToMany,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Listener } from 'src/listeners/entities/listener.entity';
-import { Chart } from 'src/chart/entities/chart.entity';
-import { Topchart } from 'src/topcharts/entities/topchart.entity';
 
 @Entity()
 export class Music {
@@ -24,6 +23,9 @@ export class Music {
 
   @Column({ nullable: false })
   musicAudio: string;
+
+  @Column({ nullable: true })
+  playlistId: string;
 
   @Column({ nullable: false })
   coverImage: string;
@@ -44,12 +46,12 @@ export class Music {
   @JoinColumn({ name: 'artistId' })
   artist: Artist;
 
+  @CreateDateColumn({ type: 'timestamp'})
+  createdAt: Date;
+
   @OneToMany(() => Listener, (listener) => listener.music)
   listeners: Listener[];
 
-
-
   @ManyToMany(() => Playlist, (playlist) => playlist.musics)
   playlists: Playlist[];
-
 }
