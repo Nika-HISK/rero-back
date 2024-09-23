@@ -33,6 +33,7 @@ export class PlaylistRepository {
     return await this.playlistRepository.createQueryBuilder('playlist')
     .leftJoinAndSelect('playlist.musics', 'music')
     .leftJoinAndSelect('music.artist', 'artist')
+    .leftJoinAndSelect('music.album', 'album')
     .getMany()
   }
 

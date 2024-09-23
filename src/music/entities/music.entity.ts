@@ -9,6 +9,7 @@ import {
   OneToMany,
   ManyToMany,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Listener } from 'src/listeners/entities/listener.entity';
 
@@ -44,6 +45,9 @@ export class Music {
   @ManyToOne(() => Artist, (artist) => artist.musics)
   @JoinColumn({ name: 'artistId' })
   artist: Artist;
+
+  @CreateDateColumn({ type: 'timestamp'})
+  createdAt: Date;
 
   @OneToMany(() => Listener, (listener) => listener.music)
   listeners: Listener[];
