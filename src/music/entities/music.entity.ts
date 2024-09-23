@@ -23,6 +23,9 @@ export class Music {
   @Column({ nullable: false })
   musicAudio: string;
 
+  @Column({ nullable: true })
+  playlistId: string;
+
   @Column({ nullable: false })
   coverImage: string;
 

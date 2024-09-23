@@ -17,7 +17,6 @@ export class MusicRepository {
       ...data,
       duration: duration || null,
     });
-    console.log('Repository saving music with duration:', duration);
     return this.musicRepository.save(newMusic);
   }
 

@@ -6,7 +6,6 @@ import { CreatePlaylistDto } from '../dto/create-playlist.dto';
 import { UpdatePlaylistDto } from '../dto/update-playlist.dto';
 import { Music } from 'src/music/entities/music.entity';
 import { MusicRepository } from 'src/music/repositories/music.repository';
-import { error } from 'console';
 
 @Injectable()
 export class PlaylistRepository {
@@ -47,43 +46,53 @@ export class PlaylistRepository {
     return playlist;
   }
 
-  async addMusic (id:number, musicId:number) {
-    const playlist = await this.playlistRepository.findOne({where :{id}, relations: ['musics']})
-
-    if(musicId) {
-    const music = await this.musicrepository.findOne(musicId)
-
-    const hasMusic = playlist.musics.some(m => m.id == musicId);
-
-    if(!hasMusic) playlist.musics.push(music)
-    else throw new Error('Music is already exists');
-
-    return this.playlistRepository.save(playlist)      
-
-  } else {
-    throw new UnauthorizedException()
-  }
-
-  }
-
-  async deleteMusic(id: number, musicId: number) {
+  
+  async addMusic(id: number, musicId: number): Promise<Playlist> {
     const playlist = await this.playlistRepository.findOne({
       where: { id },
       relations: ['musics'],
     });
   
-      const music = await this.musicrepository.findOne(musicId);
+    const music = await this.musicrepository.findOne(musicId);
   
-    if (playlist && music) {
-      playlist.musics = playlist.musics.filter(m => m.id !== musicId);
-  
-      return this.playlistRepository.save(playlist);
+    if (!playlist) {
+      throw new Error('Playlist not found');
+    }
+    
+    if (!music) {
+      throw new Error('Music not found');
     }
   
-    throw new Error('Playlist or Music not found');
+    const hasMusic = playlist.musics.some(m => m.id === musicId);
+    
+    if (!hasMusic) {
+      playlist.musics.push(music);
+      return await this.playlistRepository.save(playlist);
+    } else {
+      throw new Error('Music already exists in the playlist');
+    }
   }
+
+  async deleteMusic(id: number, musicId: number): Promise<Playlist> {
+    const playlist = await this.playlistRepository.findOne({
+      where: { id },
+      relations: ['musics'],
+    });
   
+    if (!playlist) {
+      throw new Error('Playlist not found');
+    }
   
+    const music = playlist.musics.find(m => m.id === musicId);
+  
+    if (!music) {
+      throw new Error('Music not found in the playlist');
+    }
+  
+    playlist.musics = playlist.musics.filter(m => m.id !== musicId);
+  
+    return await this.playlistRepository.save(playlist);
+  }
 
   async update(
     id: number,

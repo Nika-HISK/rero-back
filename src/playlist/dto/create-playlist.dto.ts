@@ -1,12 +1,7 @@
-import { Type } from 'class-transformer';
-import { IsOptional, IsString, ValidateNested } from 'class-validator';
-import { CreateMusicDto } from 'src/music/dtos/create-music.dto';
+import { IsString} from 'class-validator';
 
 export class CreatePlaylistDto {
   @IsString()
   playlistName: string;
 
-  @ValidateNested({ each: true })
-  @Type(() => CreateMusicDto)
-  musics: CreateMusicDto[];
 }

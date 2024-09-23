@@ -28,7 +28,6 @@ export class Playlist {
   @ManyToOne(() => User, (user) => user.playlists)
   user: User;
 
-
   @CreateDateColumn()
   createdAt: Date;
 

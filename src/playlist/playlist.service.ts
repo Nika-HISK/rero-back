@@ -1,48 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { Music } from 'src/music/entities/music.entity';
-import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { Playlist } from './entities/playlist.entity';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
+import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { PlaylistRepository } from './repositories/playlist.repository';
-import { MusicService } from 'src/music/music.service';
+
 
 @Injectable()
 export class PlaylistService {
   constructor(
     private readonly playlistRepository: PlaylistRepository,
-    private readonly musicService: MusicService,
   ) {}
 
   async create(createPlaylistDto: CreatePlaylistDto): Promise<Playlist> {
-    const musicEntities: Music[] = [];
-
-    if (createPlaylistDto.musics && createPlaylistDto.musics.length > 0) {
-      for (const musicDto of createPlaylistDto.musics) {
-        let music = await this.musicService.findByProperties(musicDto);
-        musicEntities.push(music);
-      }
-    }
-
-    return this.playlistRepository.createPlaylist(
-      createPlaylistDto,
-      musicEntities,
-    );
+    return await this.playlistRepository.createPlaylist(createPlaylistDto);
   }
 
-  async update(
-    id: number,
-    updatePlaylistDto: UpdatePlaylistDto,
-  ): Promise<Playlist> {
-    const musicEntities: Music[] = [];
-
-    if (updatePlaylistDto.musics && updatePlaylistDto.musics.length > 0) {
-      for (const musicDto of updatePlaylistDto.musics) {
-        let music = await this.musicService.findByProperties(musicDto);
-        musicEntities.push(music);
-      }
-    }
-
-    return this.playlistRepository.update(id, updatePlaylistDto, musicEntities);
+  async update(id: number, updatePlaylistDto: UpdatePlaylistDto): Promise<Playlist> {
+    return this.playlistRepository.update(id, updatePlaylistDto);
   }
 
   async findOne(id: number): Promise<Playlist> {
@@ -57,12 +31,11 @@ export class PlaylistService {
     await this.playlistRepository.delete(id);
   }
 
-  async addMusic(id:number, musicId:number) {
-    return this.playlistRepository.addMusic(id, musicId)
+  async addMusic(playlistId: number, musicId: number): Promise<Playlist> {
+    return this.playlistRepository.addMusic(playlistId, musicId);
   }
 
-  async deleteMusic(id:number, musicId:number) {
-      return this.playlistRepository.deleteMusic(id, musicId)
+  async deleteMusic(playlistId: number, musicId: number): Promise<Playlist> {
+    return this.playlistRepository.deleteMusic(playlistId, musicId);
   }
-
 }

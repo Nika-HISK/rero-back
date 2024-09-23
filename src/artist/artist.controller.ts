@@ -32,7 +32,7 @@ export class ArtistController {
     @Body() createArtistDto: CreateArtistDto,
   ) {
     if (artistPhoto) {
-      // Upload the file and get its URL
+      
       const uploadedPhoto = await this.filesService.uploadFile(artistPhoto);
       createArtistDto.artistPhoto = uploadedPhoto.url;
     }
