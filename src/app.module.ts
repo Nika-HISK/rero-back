@@ -18,6 +18,8 @@ import { Album } from './album/entities/album.entity';
 import { FilesModule } from './files/files.module';
 import { AwsModule } from './aws/aws.module';
 import { FileEntity } from './files/entities/file.entity';
+import { ChartModule } from './chart/chart.module';
+import { TopchartsModule } from './topcharts/topcharts.module';
 
 @Module({
   imports: [
@@ -43,6 +45,8 @@ import { FileEntity } from './files/entities/file.entity';
     AuthModule,
     FilesModule,
     AwsModule,
+    ChartModule,
+    TopchartsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

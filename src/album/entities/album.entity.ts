@@ -8,6 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Chart } from 'src/chart/entities/chart.entity';
 
 @Entity()
 export class Album {
@@ -32,6 +33,9 @@ export class Album {
 
   @ManyToOne(() => Artist, (artist) => artist.albums)
   artist: Artist;
+
+  @OneToMany(() => Chart, (chart) => chart.album)
+  charts: Chart[]
 
   @DeleteDateColumn()
   deletedAt:Date
