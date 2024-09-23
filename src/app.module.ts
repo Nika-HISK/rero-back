@@ -19,6 +19,9 @@ import { FilesModule } from './files/files.module';
 import { AwsModule } from './aws/aws.module';
 import { FileEntity } from './files/entities/file.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { ChartModule } from './chart/chart.module';
+import { TopchartsModule } from './topcharts/topcharts.module';
+
 
 @Module({
   imports: [
@@ -44,7 +47,9 @@ import { JwtModule } from '@nestjs/jwt';
     AuthModule,
     FilesModule,
     AwsModule,
-    JwtModule
+    JwtModule,
+    ChartModule,
+    TopchartsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
