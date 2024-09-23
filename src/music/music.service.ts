@@ -7,6 +7,7 @@ import { FilesService } from 'src/files/files.service';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import * as os from 'os';
+import { ListenersRepository } from 'src/listeners/repositories/listeners.repository';
 
 const ffmpeg = require('fluent-ffmpeg');
 const ffprobePath = require('@ffprobe-installer/ffprobe').path;
@@ -17,6 +18,7 @@ export class MusicService {
   constructor(
     private readonly musicRepository: MusicRepository,
     private readonly filesService: FilesService,
+    private readonly listenersRepository:ListenersRepository
   ) {}
 
   async create(
@@ -69,6 +71,7 @@ export class MusicService {
   }
 
   async findOne(id: number): Promise<Partial<Music> | null> {
+    await this.listenersRepository.addListener(id);
     const music = await this.musicRepository.findOne(id);
     if (music) {
       const { albumId, artistId, ...musicWithoutIds } = music;
