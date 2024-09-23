@@ -11,8 +11,8 @@ export class PlaylistService {
     private readonly playlistRepository: PlaylistRepository,
   ) {}
 
-  async create(createPlaylistDto: CreatePlaylistDto): Promise<Playlist> {
-    return await this.playlistRepository.createPlaylist(createPlaylistDto);
+  async create(createPlaylistDto: CreatePlaylistDto,userId:number): Promise<Playlist> {
+    return await this.playlistRepository.createPlaylist(createPlaylistDto,userId);
   }
 
   async update(id: number, updatePlaylistDto: UpdatePlaylistDto): Promise<Playlist> {

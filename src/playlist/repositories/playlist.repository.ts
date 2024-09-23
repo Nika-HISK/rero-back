@@ -16,17 +16,17 @@ export class PlaylistRepository {
 
     ) {}
 
-  async createPlaylist(
-    createPlaylistDto: CreatePlaylistDto,
-    musics: Music[] = [],
-  ): Promise<Playlist> {
-    const newPlaylist = this.playlistRepository.create({
-      playlistName: createPlaylistDto.playlistName,
-      musics: musics,
-    });
-    return await this.playlistRepository.save(newPlaylist);
-  }
-
+    async createPlaylist(
+      createPlaylistDto: CreatePlaylistDto,
+      userId: number,
+    ): Promise<Playlist> {
+      const newPlaylist = this.playlistRepository.create({
+        playlistName: createPlaylistDto.playlistName,
+        musics: createPlaylistDto.musics || [],
+        user: { id: userId },
+      });
+      return await this.playlistRepository.save(newPlaylist);
+    }
 
 
   async findAll(): Promise<Playlist[]> {

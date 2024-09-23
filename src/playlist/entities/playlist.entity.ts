@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   JoinTable,
-  OneToMany,
   ManyToOne,
 } from 'typeorm';
 
@@ -21,20 +20,19 @@ export class Playlist {
   @Column()
   playlistName: string;
 
-  @ManyToMany(() => Music, (music) => music.playlists, { cascade: true })
-  @JoinTable() 
-  musics: Music[];
-
   @ManyToOne(() => User, (user) => user.playlists)
   user: User;
+
+  @ManyToMany(() => Music, (music) => music.playlists, { cascade: true })
+  @JoinTable()
+  musics: Music[];
 
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({nullable:false})
+  @UpdateDateColumn()
   updatedAt: Date;
 
-  @DeleteDateColumn({nullable:false})
+  @DeleteDateColumn()
   deletedAt: Date;
-
 }

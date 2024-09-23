@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Put,
+  Req,
 } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
@@ -19,8 +20,9 @@ export class PlaylistController {
 
   @Roles(Role.USER, Role.ADMIN)
   @Post()
-  create(@Body() createPlaylistDto: CreatePlaylistDto) {
-    return this.playlistService.create(createPlaylistDto);
+  async create(@Body() createPlaylistDto: CreatePlaylistDto, @Req() req) {
+    const userId = req.user.id;
+    return this.playlistService.create(createPlaylistDto, userId);
   }
 
   @Roles(Role.USER, Role.ADMIN)
