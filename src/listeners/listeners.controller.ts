@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ListenersService } from './listeners.service';
 import { CreateListenerDto } from './dto/create-listener.dto';
 import { Roles } from 'src/auth/guard/jwt-roles.guard';
@@ -13,4 +13,11 @@ export class ListenersController {
   getStatistics(): Promise<any[]> {
     return this.listenersService.getStatistics()
   }
+
+  @Roles(Role.USER, Role.ADMIN)
+  @Post(':musicId')
+  createListener(@Param('musicId') musicId: number,) {
+    return this.listenersService.createListener(musicId)
+  }
+
 }
