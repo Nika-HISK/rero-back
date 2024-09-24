@@ -43,7 +43,7 @@ export class PlaylistController {
     return this.playlistService.findOne(Number(id));
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.USER, Role.ADMIN)
   @Put(':id')
   update(
     @Param('id') id: string,
