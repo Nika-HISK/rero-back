@@ -42,7 +42,7 @@ export class AuthService {
 
     if(user.banned) { 
       
-      throw new  UnauthorizedException()
+      throw new  UnauthorizedException('Access denied. You are banned.')
     }     
     return {
       accessToken: await this.jwtService.signAsync(payload, Jwtconstantcs),
