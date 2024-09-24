@@ -51,23 +51,24 @@ export class AuthService {
 
   async loginAdmin(createUserDto: CreateUserDto) {
     const { email, password } = createUserDto;
-    
-    
     const user = await this.userService.findOneByEmail(email);
-
-    
     const isPasswordCorrect = user && (await bcrypt.compare(password, user.password));
     if (!isPasswordCorrect) {
       throw new HttpException('The email or password you entered is incorrect', HttpStatus.BAD_REQUEST);
     }
-
+  
+    if (user.banned) { 
+      throw new UnauthorizedException('Access denied. You are banned.');
+    }
+  
     if (user.role !== Role.ADMIN) {
       throw new UnauthorizedException('Access denied. Admins only.');
     }
-
+  
     const payload = { sub: user.id, email: user.email, role: user.role };
     return {
       accessToken: await this.jwtService.signAsync(payload, Jwtconstantcs),
     };
   }
+  
 }
