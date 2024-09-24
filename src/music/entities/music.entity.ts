@@ -39,19 +39,19 @@ export class Music {
   @Column({ type: 'int' })
   artistId: number;
 
-  @ManyToOne(() => Album, (album) => album.musics)
+  @ManyToOne(() => Album, (album) => album.musics, { cascade: true })
   album: Album;
 
-  @ManyToOne(() => Artist, (artist) => artist.musics)
+  @ManyToOne(() => Artist, (artist) => artist.musics, { cascade: true })
   @JoinColumn({ name: 'artistId' })
   artist: Artist;
 
-  @CreateDateColumn({ type: 'timestamp'})
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @OneToMany(() => Listener, (listener) => listener.music)
+  @OneToMany(() => Listener, (listener) => listener.music, { cascade: true })
   listeners: Listener[];
 
-  @ManyToMany(() => Playlist, (playlist) => playlist.musics)
+  @ManyToMany(() => Playlist, (playlist) => playlist.musics, { cascade: true , onDelete: 'CASCADE',})
   playlists: Playlist[];
 }
