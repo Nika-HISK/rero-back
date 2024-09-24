@@ -11,5 +11,9 @@ constructor(private readonly listenersrepository:ListenersRepository) {}
   getStatistics(): Promise<any[]> {
     return this.listenersrepository.getStatistics()
   }
+
+  createListener(musicId:number) {
+    return this.listenersrepository.create(musicId)
+  }
  
 }

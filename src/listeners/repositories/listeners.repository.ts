@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Listener } from '../entities/listener.entity';
+import { CreateListenerDto } from '../dto/create-listener.dto';
+import { MusicRepository } from 'src/music/repositories/music.repository';
 
 @Injectable()
 export class ListenersRepository {
   constructor(
     @InjectRepository(Listener)
     private readonly listenerRepo: Repository<Listener>,
+    private readonly musicRepo:MusicRepository
   ) {}
 
   async getStatistics(): Promise<any[]> {
@@ -67,4 +70,15 @@ export class ListenersRepository {
     listener.musicId = musicId; 
     await this.listenerRepo.save(listener);
   }
+
+
+  async create(musicId:number) {    
+    const music = await this.musicRepo.findOne(musicId);
+    if (!music) {
+      throw new NotFoundException('Music not found');
+    }
+
+    const listener = this.listenerRepo.create({ music });
+    return this.listenerRepo.save(listener);
+  }  
 }
