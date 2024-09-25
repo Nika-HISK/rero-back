@@ -13,12 +13,14 @@ export class UserRepository {
     private readonly userRepo: Repository<User>,
   ) {}
 
-  async me(userId:number) {
+  async me(userId: number) {
     return await this.userRepo.createQueryBuilder('user')
-    .leftJoinAndSelect('user.playlists', 'playlist')
-    .leftJoinAndSelect('playlist.musics','musics')
-    .where('user.id =:userId',{userId})
-    .getOne()
+      .leftJoinAndSelect('user.playlists', 'playlist')
+      .leftJoinAndSelect('playlist.musics', 'musics')
+      .leftJoinAndSelect('musics.artist', 'artist')
+      .leftJoinAndSelect('musics.album', 'album')
+      .where('user.id = :userId', { userId })
+      .getOne();
   }
 
   async create(createUserDto: CreateUserDto) {
