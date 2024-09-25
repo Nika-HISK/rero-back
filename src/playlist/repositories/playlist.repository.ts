@@ -56,7 +56,6 @@ export class PlaylistRepository {
     });
   
     const music = await this.musicrepository.findOne(musicId);
-    console.log(music , 'music')
     if (!playlist) {
       throw new Error('Playlist not found');
     }
