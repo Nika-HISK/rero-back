@@ -49,7 +49,7 @@ export class UserController {
     return this.userService.changePassword(+id, password);
   }
 
-  @Roles(Role.USER, Role.ADMIN)
+  @Roles(Role.ADMIN)
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
