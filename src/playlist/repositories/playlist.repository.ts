@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Playlist } from '../entities/playlist.entity';
@@ -56,7 +56,7 @@ export class PlaylistRepository {
     });
   
     const music = await this.musicrepository.findOne(musicId);
-  
+    console.log(music , 'music')
     if (!playlist) {
       throw new Error('Playlist not found');
     }
@@ -67,11 +67,11 @@ export class PlaylistRepository {
   
     const hasMusic = playlist.musics.some(m => m.id === musicId);
     
-    if (hasMusic) {
+    if (!hasMusic) {
       playlist.musics.push(music);
       return await this.playlistRepository.save(playlist);
     } else {
-      throw new Error('Music already exists in the playlist');
+      throw  new HttpException('Music already exists in the playlist' , HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
