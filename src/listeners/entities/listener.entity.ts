@@ -22,7 +22,7 @@ export class Listener {
   @CreateDateColumn({nullable:true})
   createdAt: Date;
 
-  @ManyToOne(() => Music, (music) => music.listeners)
+  @ManyToOne(() => Music, (music) => music.listeners, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   music: Music;
 
 }
