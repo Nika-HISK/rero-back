@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Put,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,6 +19,12 @@ import { Roles } from 'src/auth/guard/jwt-roles.guard';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+
+  @Roles(Role.USER, Role.ADMIN)
+  @Get('me')
+  async me(@Req() req: any) {
+    return await this.userService.me(req.user.id)
+  }
   @Roles(Role.USER, Role.ADMIN)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {

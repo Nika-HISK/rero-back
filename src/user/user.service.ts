@@ -8,6 +8,10 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private readonly userRepo: UserRepository) {}
 
+
+  async me(userId: number) {
+    return await this.userRepo.me(userId)
+  }
   create(createUserDto: CreateUserDto) {
     return this.userRepo.create(createUserDto);
   }

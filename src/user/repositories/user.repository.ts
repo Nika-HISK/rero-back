@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import {InjectRepository} from '@nestjs/typeorm'
 import { Repository, createQueryBuilder } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -12,6 +12,14 @@ export class UserRepository {
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
   ) {}
+
+  async me(userId:number) {
+    return await this.userRepo.createQueryBuilder('user')
+    .leftJoinAndSelect('user.playlists', 'playlist')
+    .leftJoinAndSelect('playlist.musics','musics')
+    .where('user.id =:userId',{userId})
+    .getOne()
+  }
 
   async create(createUserDto: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
@@ -35,8 +43,8 @@ export class UserRepository {
   async findOne(id: number) {
     const query = this.userRepo
       .createQueryBuilder('user')
-      .leftJoinAndSelect('user.playlists', 'playlist')
-      .leftJoinAndSelect('playlist.musics', 'music')
+      .leftJoinAndSelect('user.playlists', 'playlists')
+      .leftJoinAndSelect('playlists.musics', 'music')
       .where('user.id = :id', { id });
 
     const user = await query.getOne();
