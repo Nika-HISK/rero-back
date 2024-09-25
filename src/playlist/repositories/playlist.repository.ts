@@ -67,7 +67,7 @@ export class PlaylistRepository {
   
     const hasMusic = playlist.musics.some(m => m.id === musicId);
     
-    if (!hasMusic) {
+    if (hasMusic) {
       playlist.musics.push(music);
       return await this.playlistRepository.save(playlist);
     } else {
