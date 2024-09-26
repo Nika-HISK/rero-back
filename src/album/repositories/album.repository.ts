@@ -31,9 +31,11 @@ export class AlbumRepository {
       .createQueryBuilder('album')
       .leftJoinAndSelect('album.musics', 'music')
       .leftJoinAndSelect('album.artist', 'artist')
+      .leftJoinAndSelect('music.album', 'musicAlbum')
+      .leftJoinAndSelect('music.artist', 'musicArtist')
       .where('album.id = :id', { id })
       .getOne();
-  
+    
     return album;
   }
 
