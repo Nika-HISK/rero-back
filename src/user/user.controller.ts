@@ -55,7 +55,7 @@ export class UserController {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Roles(Role.USER, Role.ADMIN)
+  @Roles(Role.ADMIN)
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.userService.delete(+id);
