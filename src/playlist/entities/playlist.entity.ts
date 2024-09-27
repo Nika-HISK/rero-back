@@ -20,7 +20,7 @@ export class Playlist {
   @Column()
   playlistName: string;
 
-  @ManyToOne(() => User, (user) => user.playlists)
+  @ManyToOne(() => User, (user) => user.playlists, { onDelete: 'CASCADE' })
   user: User;
 
   @ManyToMany(() => Music, (music) => music.playlists)
