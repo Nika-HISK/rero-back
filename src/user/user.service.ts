@@ -12,10 +12,13 @@ export class UserService {
   async me(userId: number) {
     return await this.userRepo.me(userId)
   }
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    const existingUser = await this.userRepo.findOneByEmail(createUserDto.email);
+    if (existingUser) {
+      throw new BadRequestException('Email is already in use');
+    }
     return this.userRepo.create(createUserDto);
   }
-
   findAll() {
     return this.userRepo.findAll();
   }
