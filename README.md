@@ -3,7 +3,6 @@
 This is the backend service for **Rero**, a modern music streaming platform. Built with **NestJS**, **TypeORM**, and **MySQL**, it powers all backend operations from user management to track storage, with cloud integration using **Render** for hosting and **AWS S3** for media storage.
 
 ---
-
 ## 🧰 Tech Stack
 
 - **NestJS** – Scalable and modular Node.js framework
@@ -11,7 +10,6 @@ This is the backend service for **Rero**, a modern music streaming platform. Bui
 - **MySQL** – Relational database for storing user and music data
 - **Render** – Cloud platform for server hosting
 - **AWS S3** – Secure storage for audio files and album art
-
 ---
 
 ## 📦 Features
