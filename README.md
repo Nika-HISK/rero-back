@@ -1,9 +1,9 @@
-# 🎵 Rero Music Backend (`rero-back`)
+#  Rero Music Backend (`rero-back`)
 
 This is the backend service for **Rero**, a modern music streaming platform. Built with **NestJS**, **TypeORM**, and **MySQL**, it powers all backend operations from user management to track storage, with cloud integration using **Render** for hosting and **AWS S3** for media storage.
 
 ---
-## 🧰 Tech Stack
+##  Tech Stack
 
 - **NestJS** – Scalable and modular Node.js framework
 - **TypeORM** – ORM for MySQL database
@@ -12,7 +12,7 @@ This is the backend service for **Rero**, a modern music streaming platform. Bui
 - **AWS S3** – Secure storage for audio files and album art
 ---
 
-## 📦 Features
+##  Features
 
 - User authentication and profile management
 - Music upload and streaming (stored on S3)
@@ -22,7 +22,7 @@ This is the backend service for **Rero**, a modern music streaming platform. Bui
 
 ---
 
-## 🛠️ Development Setup
+## Development Setup
 
 ```bash
 # Clone the repo
