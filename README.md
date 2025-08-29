@@ -1,4 +1,4 @@
-#  Rero Music Backend (`rero-back`)
+#  Rero Music Backend
 
 This is the backend service for **Rero**, a modern music streaming platform. Built with **NestJS**, **TypeORM**, and **MySQL**, it powers all backend operations from user management to track storage, with cloud integration using **Render** for hosting and **AWS S3** for media storage.
 
